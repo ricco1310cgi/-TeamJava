@@ -21,10 +21,11 @@ public class BoilerReader {
     private InputStreamReader isr;
 
     public String readFromBoiler(int port) throws IOException {
+        // Temp String
         String returnString = "";
 
+        // Connect to boiler sim at localhost/127.0.0.1 and at port 7777
         clientSocket = new Socket("127.0.0.1", 7777);
-
 
 
         out = new PrintWriter(clientSocket.getOutputStream(), true);
