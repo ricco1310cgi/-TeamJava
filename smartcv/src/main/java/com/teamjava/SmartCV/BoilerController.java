@@ -1,6 +1,7 @@
 package com.teamjava.SmartCV;
 
 import java.io.IOException;
+import com.teamjava.SmartCV.domain.BoilerDTO;
 
 public class BoilerController {
     private static BoilerDTO boilerDTO;
