@@ -15,7 +15,7 @@ public class BoilerConverter {
         return outputString;
     }
 
-    public BoilerDTO convertStringToBoilerBTO(String inputString) {
+    public BoilerDTO convertStringToBoilerDTO(String inputString) {
         // Example input
         // #STAT#161#15.62#10.20#1#1488813845#0.03#1488814881
         StringBuilder stb = new StringBuilder(inputString);
