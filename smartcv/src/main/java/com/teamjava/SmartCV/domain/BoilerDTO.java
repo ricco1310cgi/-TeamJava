@@ -9,6 +9,17 @@ public class BoilerDTO {
 	private float gasUsage;
 	private long timeRecorder;
 
+	public BoilerDTO(int boilerPressure, float tempInside, float tempOutside, boolean isDoorClosed, long timeMovementRecord, float gasUsage, long timeRecorder) {
+		this.boilerPressure = boilerPressure;
+		this.tempInside = tempInside;
+		this.tempOutside = tempOutside;
+		this.isDoorClosed = isDoorClosed;
+		this.timeMovementRecord = timeMovementRecord;
+		this.gasUsage = gasUsage;
+		this.timeRecorder = timeRecorder;
+	}
+
+
 	public int getBoilerPressure() {
 		return boilerPressure;
 	}
@@ -63,5 +74,18 @@ public class BoilerDTO {
 
 	public void setTimeRecorder(long timeRecorder) {
 		this.timeRecorder = timeRecorder;
+	}
+
+	@Override
+	public String toString() {
+		return "BoilerDTO{" +
+				"boilerPressure=" + boilerPressure +
+				", tempInside=" + tempInside +
+				", tempOutside=" + tempOutside +
+				", isDoorClosed=" + isDoorClosed +
+				", timeMovementRecord=" + timeMovementRecord +
+				", gasUsage=" + gasUsage +
+				", timeRecorder=" + timeRecorder +
+				'}';
 	}
 }
