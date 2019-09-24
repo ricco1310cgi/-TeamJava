@@ -3,15 +3,6 @@ package com.cgi.smartcv.dto;
 import java.util.Arrays;
 
 public class BoilerConverter {
-	private String inputString;
-    private String outputString;
-    //private Boiler boiler;
-
-    public String sendCommand(String inputString) {
-        String outputString = "";
-
-        return outputString;
-    }
 
     public Boiler convertStringToBoilerDTO(String inputString, Boiler boiler) {
         // Example input

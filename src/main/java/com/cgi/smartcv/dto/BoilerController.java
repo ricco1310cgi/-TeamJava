@@ -13,7 +13,7 @@ public class BoilerController {
         boilerConverter = new BoilerConverter();
 
         // Reads the String from the cv simulator on port 7777 !ASSIGN SECRET KEY IN CLASS!
-        String boilerOutputString = boilerReader.readFromBoiler(7777);
+        String boilerOutputString = boilerReader.readFromBoiler();
         // Create a BoilerBTO object from the String boilerOutputString
         boiler = boilerConverter.convertStringToBoilerDTO(boilerOutputString, boiler);
         System.out.println(boiler.toString());

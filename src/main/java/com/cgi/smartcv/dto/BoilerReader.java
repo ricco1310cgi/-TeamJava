@@ -11,21 +11,13 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class BoilerReader {
-	// Variables used by program
-	private int port;
-	private String outputString;
-
 	// Variables used for Sockets
 	private Socket clientSocket;
 	private PrintWriter out;
 	private BufferedReader in;
-	private OutputStream os;
-	private OutputStreamWriter ows;
-	private BufferedWriter bw;
-	private InputStream is;
-	private InputStreamReader isr;
 
-	public String readFromBoiler(int port) throws IOException {
+
+	public String readFromBoiler() throws IOException {
 		// Temp String
 		String returnString = "";
 
@@ -37,7 +29,7 @@ public class BoilerReader {
 		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
 		// Setup up the initial session with the CV !SECRET KEY CHANGES!
-		out.println("$CV-CONNECT-$-465969");
+		out.println("$CV-CONNECT-$-902285");
 		// Ask the CV for the current stats of the CV
 		out.println("$CV-STAT?");
 
