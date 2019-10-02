@@ -29,7 +29,7 @@ public class BoilerEndpoint {
 		Iterable<Boiler> boilers = boilerService.findAll();
 		return ResponseEntity.ok(boilers);
 	}
-	
+
 	@PostMapping("api/boiler")
 	public ResponseEntity<Boiler> saveBoiler(@RequestBody @Valid Boiler boiler){
 		if (boiler != null) {
