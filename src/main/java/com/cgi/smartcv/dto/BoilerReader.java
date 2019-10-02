@@ -1,12 +1,8 @@
 package com.cgi.smartcv.dto;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -29,7 +25,7 @@ public class BoilerReader {
 		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
 		// Setup up the initial session with the CV !SECRET KEY CHANGES!
-		out.println("$CV-CONNECT-$-902285");
+		out.println("$CV-CONNECT-$-727042");
 		// Ask the CV for the current stats of the CV
 		out.println("$CV-STAT?");
 
