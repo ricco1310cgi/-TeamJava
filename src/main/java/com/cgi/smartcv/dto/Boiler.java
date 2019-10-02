@@ -5,27 +5,44 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
+@ApiModel(description = "All details about the Boiler.")
 public class Boiler {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@ApiModelProperty(notes = "The database generated employee ID")
 	private long id;
 
+	@ApiModelProperty(notes = "Pressure of the Boiler")
 	private int boilerPressure;
+
+	@ApiModelProperty(notes = "Temperature inside of the house")
 	private float tempInside;
+
+	@ApiModelProperty(notes = "Temperature outside of the house")
 	private float tempOutside;
+
+	@ApiModelProperty(notes = "Confirmation if the door is closed")
 	private boolean isDoorClosed;
+
+	@ApiModelProperty(notes = "Time recodered, lastest in the room")
 	private long timeMovementRecord;
+
+	@ApiModelProperty(notes = "Gas usage Boiler")
 	private float gasUsage;
+
+	@ApiModelProperty(notes = "Time recorder")
 	private long timeRecorder;
-	
+
 	public Boiler() {
-		super();
 	}
-	
-	public Boiler(int boilerPressure, float tempInside, float tempOutside, boolean isDoorClosed, long timeMovementRecord, float gasUsage, long timeRecorder) {
-		super();
+
+	public Boiler(int boilerPressure, float tempInside, float tempOutside, boolean isDoorClosed,
+			long timeMovementRecord, float gasUsage, long timeRecorder) {
 		this.boilerPressure = boilerPressure;
 		this.tempInside = tempInside;
 		this.tempOutside = tempOutside;
