@@ -32,8 +32,7 @@ public class BoilerService {
 	}
 
 	public float findTemperature() throws IOException {
-		BoilerService boilerService = new BoilerService(boilerRepository);
-		Iterable<Boiler> boilers = boilerService.findAll();
+		Iterable<Boiler> boilers = boilerRepository.findAll();
 		float tempInside = 0;
 		long timeRecorder = 0;
 		for (Boiler b : boilers) {
