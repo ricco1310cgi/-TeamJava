@@ -42,6 +42,7 @@ public class BoilerEndpoint {
 		return ResponseEntity.badRequest().build();
 	}
 
+
 	@ApiOperation(value = "Save a boiler object to the database")
 	@PostMapping("/boiler")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Successfully added a boiler object") })

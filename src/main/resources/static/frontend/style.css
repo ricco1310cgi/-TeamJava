@@ -1,0 +1,15 @@
+.form-check-input {
+    margin-top: 7px; 
+}
+
+.btn{
+    background-color: #791e00;
+    border-color: #791e00;
+}
+
+.btn:hover{
+    background-color: #470501;
+    border-color: #470501; 
+}
+
+
