@@ -30,4 +30,18 @@ public class BoilerService {
 	public Boiler save(Boiler boiler) {
 		return boilerRepository.save(boiler);
 	}
+
+	public float findTemperature() throws IOException {
+		BoilerService boilerService = new BoilerService(boilerRepository);
+		Iterable<Boiler> boilers = boilerService.findAll();
+		float tempInside = 0;
+		long timeRecorder = 0;
+		for (Boiler b : boilers) {
+			if (b.getTimeRecorder() > timeRecorder) {
+				timeRecorder = b.getTimeRecorder();
+				tempInside = b.getTempInside();
+			}
+		}
+		return tempInside;
+	}
 }

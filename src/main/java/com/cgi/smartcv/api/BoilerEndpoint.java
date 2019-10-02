@@ -29,6 +29,13 @@ public class BoilerEndpoint {
 		Iterable<Boiler> boilers = boilerService.findAll();
 		return ResponseEntity.ok(boilers);
 	}
+
+	@GetMapping("api/boiler/temperature")
+	public ResponseEntity<Float> findTemperature() throws IOException {
+		float tempInside = boilerService.findTemperature();
+
+		return ResponseEntity.ok(tempInside);
+	}
 	
 	@PostMapping("api/boiler")
 	public ResponseEntity<Boiler> saveBoiler(@RequestBody @Valid Boiler boiler){
