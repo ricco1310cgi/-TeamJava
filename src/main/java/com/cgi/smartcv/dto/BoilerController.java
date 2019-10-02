@@ -1,19 +1,36 @@
 package com.cgi.smartcv.dto;
 
 import java.io.IOException;
+import java.net.Socket;
 
 public class BoilerController {
 	private static Boiler boiler;
-	private static BoilerReader boilerReader;
+	private static BoilerIO boilerIO;
 	private static BoilerConverter boilerConverter;
-	
-	public static void outputBoiler() throws IOException {
-		// Instantiate all Boiler objects
-        boilerReader = new BoilerReader();
-        boilerConverter = new BoilerConverter();
+	private static BoilerConnector boilerConnector;
+	private static Socket socket;
 
-        // Reads the String from the cv simulator on port 7777 !ASSIGN SECRET KEY IN CLASS!
-        String boilerOutputString = boilerReader.readFromBoiler();
+	public BoilerController() {
+		// Instantiate all Boiler objects
+		boilerIO = new BoilerIO();
+		boilerConverter = new BoilerConverter();
+		boilerConnector = new BoilerConnector();
+		socket = new Socket();
+	}
+
+	public boolean connectBoiler() throws IOException{
+	    socket = boilerConnector.connectBoiler();
+	    return true;
+    }
+
+    public boolean destroyBoiler() throws IOException {
+		return boilerConnector.stopBoilerSimulator();
+	}
+
+
+	public void outputBoiler() throws IOException {
+		// Reads the String from the cv simulator on port 7777 !ASSIGN SECRET KEY IN CLASS!
+        String boilerOutputString = boilerIO.getCurrentStats(socket);
         // Create a BoilerBTO object from the String boilerOutputString
         boiler = boilerConverter.convertStringToBoilerDTO(boilerOutputString, boiler);
         System.out.println(boiler.toString());

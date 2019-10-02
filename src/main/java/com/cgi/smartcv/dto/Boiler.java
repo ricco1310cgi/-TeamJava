@@ -99,4 +99,17 @@ public class Boiler {
 		this.timeRecorder = timeRecorder;
 	}
 
+	@Override
+	public String toString() {
+		return "Boiler{" +
+				"id=" + id +
+				", boilerPressure=" + boilerPressure +
+				", tempInside=" + tempInside +
+				", tempOutside=" + tempOutside +
+				", isDoorClosed=" + isDoorClosed +
+				", timeMovementRecord=" + timeMovementRecord +
+				", gasUsage=" + gasUsage +
+				", timeRecorder=" + timeRecorder +
+				'}';
+	}
 }
