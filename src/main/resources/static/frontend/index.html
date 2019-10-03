@@ -14,6 +14,12 @@
 <body>
     <img src="images/SBP_newLogo.png" alt="Logo SBP">
     <br>
+    Boiler Status: <div id="boilerStatus">false</div>
+    <button onclick="startBoiler()" id="startBoilerButton">Start Boiler</button>
+    <br>
+    Temperature: <div id=demo></div>
+    <button onclick="getData()">Get Temperature</button>
+    <br>
     Temperature: <div id=tempInside></div>
     <button onclick="getTempInside()">Get Temperature</button>
     <a href="loginpage.html">loginpage</a>

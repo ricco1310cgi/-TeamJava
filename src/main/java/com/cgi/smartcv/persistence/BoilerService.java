@@ -21,7 +21,7 @@ public class BoilerService {
         this.boilerRepository = boilerRepository;
     }
 
-    public Iterable<Boiler> findAll() throws IOException {
+    public Iterable<Boiler> findAll() throws IOException, InterruptedException {
         Iterable<Boiler> result = boilerRepository.findAll();
         boilerController.outputBoiler();
         return result;
@@ -30,6 +30,11 @@ public class BoilerService {
     public Boiler save(Boiler boiler) {
         return boilerRepository.save(boiler);
     }
+
+	public boolean startBoiler() throws IOException, InterruptedException {
+		boilerController = new BoilerController();
+		return boilerController.connectBoiler();
+	}
 
     public float findTemperature() {
         Iterable<Boiler> boilers = boilerRepository.findAll();
