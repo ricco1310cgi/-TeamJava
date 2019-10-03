@@ -34,7 +34,7 @@ public class BoilerEndpoint {
 	@GetMapping("/boiler")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved list of Boilers"),
 			@ApiResponse(code = 404, message = "The boiler list is not found") })
-	public ResponseEntity<Iterable<Boiler>> findAll() throws IOException {
+	public ResponseEntity<Iterable<Boiler>> findAll() throws IOException, InterruptedException {
 		Iterable<Boiler> boilers = boilerService.findAll();
 		if (boilers != null) {
 			return ResponseEntity.ok(boilers);
@@ -51,7 +51,7 @@ public class BoilerEndpoint {
 		return ResponseEntity.ok(tempInside);
 	}
 
-	@GetMapping("api/boiler/start")
+	@GetMapping("/boiler/start")
 	public ResponseEntity<Boolean> startBoiler() throws IOException, InterruptedException {
 		return ResponseEntity.ok(boilerService.startBoiler());
 	}

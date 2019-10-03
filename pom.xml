@@ -59,7 +59,6 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
-    </dependencies>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
