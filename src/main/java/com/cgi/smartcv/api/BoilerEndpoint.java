@@ -25,11 +25,16 @@ public class BoilerEndpoint {
 	}
 
 	@GetMapping("api/boiler")
-	public ResponseEntity<Iterable<Boiler>> findAll() throws IOException {
+	public ResponseEntity<Iterable<Boiler>> findAll() throws IOException, InterruptedException {
 		Iterable<Boiler> boilers = boilerService.findAll();
 		return ResponseEntity.ok(boilers);
 	}
-	
+
+	@GetMapping("api/boiler/start")
+	public ResponseEntity<Boolean> startBoiler() throws IOException, InterruptedException {
+		return ResponseEntity.ok(boilerService.startBoiler());
+	}
+
 	@PostMapping("api/boiler")
 	public ResponseEntity<Boiler> saveBoiler(@RequestBody @Valid Boiler boiler){
 		if (boiler != null) {

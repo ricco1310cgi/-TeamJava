@@ -35,6 +35,7 @@ public class BoilerController {
 	public void outputBoiler() throws IOException {
 		// Reads the String from the cv simulator on port 7777
         String boilerOutputString = boilerIO.getCurrentStats();
+
         // Create a BoilerDTO object from the String boilerOutputString
         boiler = boilerConverter.convertStringToBoilerDTO(boilerOutputString, boiler);
         System.out.println(boiler.toString());

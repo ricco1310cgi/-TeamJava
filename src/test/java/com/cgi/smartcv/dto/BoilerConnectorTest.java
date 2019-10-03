@@ -13,7 +13,7 @@ class BoilerConnectorTest {
     BoilerController boilerController;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws IOException, InterruptedException {
         boilerController = new BoilerController();
     }
 
