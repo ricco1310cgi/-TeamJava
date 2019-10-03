@@ -42,7 +42,10 @@ public class BoilerEndpoint {
 		return ResponseEntity.badRequest().build();
 	}
 
-	@GetMapping("api/boiler/temperature")
+	@ApiOperation(value = "Show temperature from the latest temperature from the database")
+	@GetMapping("/boiler/temperature")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved temperature"),
+			@ApiResponse(code = 404, message = "The temperature is not found") })
 	public ResponseEntity<Float> findTemperature() {
 		float tempInside = boilerService.findTemperature();
 		return ResponseEntity.ok(tempInside);

@@ -25,7 +25,7 @@ public class BoilerReader {
 		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
 		// Setup up the initial session with the CV !SECRET KEY CHANGES!
-		out.println("$CV-CONNECT-$-727042");
+		out.println("$CV-CONNECT-$-915220");
 		// Ask the CV for the current stats of the CV
 		out.println("$CV-STAT?");
 
