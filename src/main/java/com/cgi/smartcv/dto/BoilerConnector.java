@@ -1,68 +1,73 @@
 package com.cgi.smartcv.dto;
 
-import org.hibernate.validator.constraints.URL;
-import org.hibernate.validator.internal.util.privilegedactions.GetResource;
-
 import java.io.*;
+import java.net.ConnectException;
 import java.net.Socket;
 
 public class BoilerConnector {
 
-    private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
+    private static Socket clientSocket;
+    private static PrintWriter out;
+    private static BufferedReader in;
     private Process proc;
 
-    public BoilerConnector() {
-
-    }
-
-    public Socket connectBoiler() throws IOException {
+    // Method that connects to the BoilerSimulator and responds true or false based on CONNECT-OK
+    boolean connectBoiler() throws IOException {
         // Temp String
         String returnString = "";
 
-        // Run the Boiler Simulator
+        // Run the Boiler Simulator and establish a connection to it
         runBoilerSimulator();
+        establishConnection();
 
-        // Connect to boiler sim at localhost/127.0.0.1 and at port 7777
-        clientSocket = new Socket("127.0.0.1", 7777);
+        // Create a new PrintWriter and BufferedReader from the clientSocket
+        out = new PrintWriter(clientSocket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         // Connect to the BoilerSimulator and retrieve the Secret Key
         String secretKey = getSecretKey();
 
-        // Send CONNECT command to bioler and store response
-        returnString = sendCommandToBoiler("$CV-CONNECT-$-" + secretKey, clientSocket);
+        // Send CONNECT command to boiler and store response
+        returnString = sendCommandToBoiler("$CV-CONNECT-$-" + secretKey);
 
-        return clientSocket;
+        // Return the boolean based on the CONNECT-OK message, allows for future checking for errors
+        return returnString.contains("CONNECT-OK");
     }
 
-    String sendCommandToBoiler(String input, Socket clientSocket) throws IOException {
+    // Method that establishes a connection with the BoilerSimulator over the Socket, attempts again on failure
+    private void establishConnection() throws IOException {
+        int attempt = 0;
+        // Attempt the connection and if unsuccessful, try again
+        try {
+            // Connect to boiler sim at localhost/127.0.0.1 and at port 7777
+            clientSocket = new Socket("127.0.0.1", 7777);
+        } catch (ConnectException e) {
+            System.out.println(e);
+            if (attempt < 5) {
+                attempt++;
+                connectBoiler();
+            } else {
+                System.exit(-1);
+            }
+        }
+    }
+
+    // Method that takes a String as input and outputs a response from the Boiler
+    String sendCommandToBoiler(String input) throws IOException {
         String returnString;
 
-        if (clientSocket == null) {
-            System.out.println("leeg");
-            //clientSocket = new Socket("127.0.0.1", 7777);
-        } else {
-            System.out.println("vol");
-        }
-
-        // Create a new PrintWriter and BufferedReader from the clientSocket
-//        System.out.println(clientSocket.toString());
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-        // Setup up the initial session with the CV !SECRET KEY CHANGES!
+        // Send command to boiler
         out.println(input);
         System.out.println(input);
 
-        // Output 1 from CV
+        // Get output from boiler
         returnString = in.readLine();
         System.out.println(returnString);
-//        out.close();
-//        in.close();
+
         return returnString;
     }
 
+    // Method that reads the input from the BoilerSimulator JAR, waits for the secret key and passes this back on the ready signal
     private String getSecretKey() throws IOException {
 
         BufferedReader stdInput = new BufferedReader(new
@@ -84,9 +89,11 @@ public class BoilerConnector {
                 break;
             }
         }
+        stdInput.close();
         return secretKey;
     }
 
+    // Method that runs the BoilerSimulator and binds it to a Process proc
     boolean runBoilerSimulator() throws IOException {
         if (proc == null || !proc.isAlive()) {
             Runtime rt = Runtime.getRuntime();
@@ -95,18 +102,30 @@ public class BoilerConnector {
 
             proc = rt.exec(commands);
 
-            return true;
+            System.out.println(proc.isAlive());
+
+            if (proc.isAlive()) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
 
     }
 
+    // Method that stops the Process proc and closes all streams
     boolean stopBoilerSimulator() throws IOException {
         if (proc.isAlive()) {
             proc.destroy();
-            out.close();
-            in.close();
+            clientSocket.close();
+            if (out != null) {
+                out.close();
+            }
+            if (in != null) {
+                in.close();
+            }
             return true;
         } else {
             return false;

@@ -1,18 +1,12 @@
 package com.cgi.smartcv.dto;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.time.LocalTime;
-import java.util.Timer;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoilerConnectorTest {
 
@@ -24,37 +18,50 @@ class BoilerConnectorTest {
     }
 
     @Test
-    public void canConnect() throws IOException {
+    public void canStart() throws IOException {
+        assertEquals(true, boilerController.startBoiler());
+    }
+
+    @Test
+    public void canConnect() throws IOException, InterruptedException {
         assertEquals(true, boilerController.connectBoiler());
     }
 
     @Test
-    public void canExit() throws IOException, InterruptedException {
-        Timer timer = new Timer();
+    public void canStop() throws IOException, InterruptedException {
         boilerController.connectBoiler();
-
-        boilerController.outputBoiler();
-        System.out.println("1");
-        System.out.println();
-        Thread.sleep(3000);
-        boilerController.outputBoiler();
-        System.out.println("2");
-        System.out.println();
-        Thread.sleep(3000);
-        boilerController.outputBoiler();
-        System.out.println("3");
-        System.out.println();
-        Thread.sleep(3000);
-        boilerController.outputBoiler();
-        System.out.println("4");
-        System.out.println();
-        Thread.sleep(3000);
         boilerController.destroyBoiler();
     }
 
+    @Test
+    public void canOutput() throws IOException, InterruptedException {
+        boilerController.connectBoiler();
+
+        boilerController.outputBoiler();
+        System.out.println();
+        System.out.println("1");
+        Thread.sleep(3000);
+        boilerController.outputBoiler();
+        System.out.println();
+        System.out.println("2");
+        Thread.sleep(3000);
+        boilerController.outputBoiler();
+        System.out.println();
+        System.out.println("3");
+        Thread.sleep(3000);
+        boilerController.outputBoiler();
+        System.out.println();
+        System.out.println("4");
+        Thread.sleep(3000);
+        boilerController.outputBoiler();
+        System.out.println();
+        System.out.println("5");
+    }
+
     @AfterEach
-    void shutdown() throws IOException {
+    void shutdown() throws IOException, InterruptedException {
         boilerController.destroyBoiler();
+        Thread.sleep(2000);
     }
 
 }
