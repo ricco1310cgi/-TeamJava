@@ -38,6 +38,8 @@ public class BoilerController {
 
         // Create a BoilerDTO object from the String boilerOutputString
         boiler = boilerConverter.convertStringToBoilerDTO(boilerOutputString, boiler);
-        System.out.println(boiler.toString());
+        //System.out.println(boiler.toString());
+        System.out.println(boiler.getTempInside());
+        System.out.println(boiler.getTempOutside());
 	}
 }

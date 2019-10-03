@@ -36,4 +36,17 @@ public class BoilerService {
 		return boilerController.connectBoiler();
 	}
 
+    public float findTemperature() {
+        Iterable<Boiler> boilers = boilerRepository.findAll();
+        float tempInside = 0;
+        long timeRecorder = 0;
+        //find last (highest timeRecorder) boiler temperature in database
+        for (Boiler b : boilers) {
+            if (b.getTimeRecorder() > timeRecorder) {
+                timeRecorder = b.getTimeRecorder();
+                tempInside = b.getTempInside();
+            }
+        }
+        return tempInside;
+    }
 }
