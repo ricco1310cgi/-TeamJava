@@ -42,7 +42,12 @@ public class BoilerEndpoint {
 		return ResponseEntity.badRequest().build();
 	}
 
-
+	@GetMapping("api/boiler/temperature")
+	public ResponseEntity<Float> findTemperature() {
+		float tempInside = boilerService.findTemperature();
+		return ResponseEntity.ok(tempInside);
+	}
+	
 	@ApiOperation(value = "Save a boiler object to the database")
 	@PostMapping("/boiler")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Successfully added a boiler object") })
