@@ -20,6 +20,7 @@ public class BoilerService {
     public BoilerService(BoilerRepository boilerRepository) {
         this.boilerRepository = boilerRepository;
     }
+
     public Iterable<Boiler> findAll() throws IOException, InterruptedException {
         Iterable<Boiler> result = boilerRepository.findAll();
         boilerController.outputBoiler();
