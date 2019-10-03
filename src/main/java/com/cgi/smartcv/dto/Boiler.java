@@ -1,12 +1,13 @@
 package com.cgi.smartcv.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Boiler {
+@EntityListeners(AuditingEntityListener.class)
+public class Boiler implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

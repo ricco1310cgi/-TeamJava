@@ -1,11 +1,17 @@
 package com.cgi.smartcv.dto;
 
+import com.cgi.smartcv.api.BoilerEndpoint;
+import com.cgi.smartcv.persistence.BoilerService;
+
+import javax.persistence.EntityManager;
 import java.io.IOException;
 
 public class BoilerController {
 	private static Boiler boiler;
 	private static BoilerReader boilerReader;
 	private static BoilerConverter boilerConverter;
+
+    private EntityManager entityManager;
 	
 	public static void outputBoiler() throws IOException {
 		// Instantiate all Boiler objects
