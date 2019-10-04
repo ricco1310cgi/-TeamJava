@@ -24,7 +24,7 @@ import com.cgi.smartcv.security.persistence.service.UserDetailsServiceImpl;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	UserDetailsServiceImpl userDetailsService;
+	private UserDetailsServiceImpl userDetailsService;
 
 	@Autowired
 	private JwtAuthEntryPoint unauthorizedHandler;
@@ -52,9 +52,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable().authorizeRequests().antMatchers("/api/auth/**").permitAll().anyRequest()
-				.authenticated().and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.cors().and().csrf().disable().authorizeRequests().antMatchers("/api/auth/**").permitAll()
+				.antMatchers("/swagger-ui.html/**").permitAll().antMatchers("/webjars/**").permitAll()
+				.antMatchers("/swagger-resources/**").permitAll().antMatchers("/csrf").permitAll().antMatchers("/v2/**")
+				.permitAll().anyRequest().authenticated().and().exceptionHandling()
+				.authenticationEntryPoint(unauthorizedHandler).and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}

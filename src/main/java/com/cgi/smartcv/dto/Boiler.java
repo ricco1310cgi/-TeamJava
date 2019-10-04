@@ -14,7 +14,7 @@ public class Boiler {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@ApiModelProperty(notes = "The database generated employee ID")
+	@ApiModelProperty(notes = "The database generates boiler ID")
 	private long id;
 
 	@ApiModelProperty(notes = "Pressure of the Boiler")

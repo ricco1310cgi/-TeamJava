@@ -50,7 +50,8 @@ public class BoilerEndpoint {
 		float tempInside = boilerService.findTemperature();
 		return ResponseEntity.ok(tempInside);
 	}
-
+	
+	@ApiOperation(value = "To start the Boiler")
 	@GetMapping("/boiler/start")
 	public ResponseEntity<Boolean> startBoiler() throws IOException, InterruptedException {
 		return ResponseEntity.ok(boilerService.startBoiler());
@@ -60,7 +61,6 @@ public class BoilerEndpoint {
 	@PostMapping("/boiler")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Successfully added a boiler object") })
 	public ResponseEntity<Boiler> saveBoiler(@RequestBody @Valid Boiler boiler) {
-
 		if (boiler != null) {
 			return ResponseEntity.ok(boilerService.save(boiler));
 		}

@@ -30,26 +30,34 @@ import com.cgi.smartcv.security.message.response.JwtResponse;
 import com.cgi.smartcv.security.persistence.repository.RoleRepository;
 import com.cgi.smartcv.security.persistence.repository.UserRepository;
 
+import io.swagger.annotations.ApiOperation;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class SecurityEndpoint {
 
-	@Autowired
-	AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;
+
+	private UserRepository userRepository;
+
+	private RoleRepository roleRepository;
+
+	private PasswordEncoder encoder;
+
+	private JwtProvider jwtProvider;
 
 	@Autowired
-	UserRepository userRepository;
+	public SecurityEndpoint(AuthenticationManager authenticationManager, UserRepository userRepository,
+			RoleRepository roleRepository, PasswordEncoder encoder, JwtProvider jwtProvider) {
+		this.authenticationManager = authenticationManager;
+		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
+		this.encoder = encoder;
+		this.jwtProvider = jwtProvider;
+	}
 
-	@Autowired
-	RoleRepository roleRepository;
-
-	@Autowired
-	PasswordEncoder encoder;
-
-	@Autowired
-	JwtProvider jwtProvider;
-
+	@ApiOperation(value = "Sign in as user, admin or pm")
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
 
@@ -60,10 +68,11 @@ public class SecurityEndpoint {
 
 		String jwt = jwtProvider.generateJwtToken(authentication);
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		
+
 		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
 	}
 
+	@ApiOperation(value = "Sign up as standard User")
 	@PostMapping("/signup")
 	public ResponseEntity<String> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {

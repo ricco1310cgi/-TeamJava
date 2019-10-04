@@ -19,34 +19,43 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
 		@UniqueConstraint(columnNames = { "email" }) })
 public class User {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@ApiModelProperty(notes = "The database generates User ID")
 	private Long id;
 
 	@NotBlank
 	@Size(min = 3, max = 50)
+	@ApiModelProperty(notes = "Name of User")
 	private String name;
 
 	@NotBlank
 	@Size(min = 3, max = 50)
+	@ApiModelProperty(notes = "Username of User")
 	private String username;
 
 	@NaturalId
 	@NotBlank
 	@Size(max = 50)
 	@Email
+	@ApiModelProperty(notes = "Email of User")
 	private String email;
 
 	@NotBlank
 	@Size(min = 6, max = 100)
+	@ApiModelProperty(notes = "Password of User")
 	private String password;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@ApiModelProperty(notes = "Set of Roles of the User")
 	private Set<Role> roles = new HashSet<>();
 
 	public User() {
