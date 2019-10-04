@@ -36,7 +36,7 @@ public class BoilerController {
 	}
 
 	// Method to take a command from the BoilerSimulator and create a Boiler object based on the output
-	public void outputBoiler() throws IOException {
+	public Boiler outputBoiler() throws IOException {
 		// Reads the String from the cv simulator on port 7777
         String boilerOutputString = boilerIO.getCurrentStats();
 
@@ -45,5 +45,6 @@ public class BoilerController {
         //System.out.println(boiler.toString());
         System.out.println(boiler.getTempInside());
         System.out.println(boiler.getTempOutside());
+        return boiler;
 	}
 }

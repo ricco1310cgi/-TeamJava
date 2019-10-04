@@ -52,13 +52,6 @@ public class BoilerService {
         }
         return tempInside;
     }
-	public Iterable<Boiler> findAll() throws IOException {
-		Boiler boiler = new Boiler();
-		boilerController = new BoilerController();
-		Iterable<Boiler> result = boilerRepository.findAll();
-		boilerController.outputBoiler();
-		return result;
-	}
 
 	public Boiler saveData(Boiler boiler) {
 		Boiler save = boilerRepository.save(boiler);
@@ -69,4 +62,9 @@ public class BoilerService {
 		boilerConverter = new BoilerConverter();
 		return boilerConverter.convertStringToBoilerDTO(input, inputBoiler);
 	}
+
+    public Boiler getCurrentBoiler(Boiler boiler1) throws IOException {
+        boiler1 = boilerController.outputBoiler();
+        return boiler1;
+    }
 }

@@ -74,10 +74,12 @@ public class BoilerEndpoint {
 
 	@PostMapping("/add")
 	@ResponseBody
-	public ResponseEntity<Boiler> addNewBoilerData(){
+	@ApiResponses({})
+	public ResponseEntity<Boiler> addNewBoilerData() throws IOException {
 
 		Boiler boiler1 = new Boiler();
-		boiler1 = boilerService.convertString("#STAT#161#15.62#10.20#1#1488813845#0.03#1488814881", boiler1);
+		boiler1 = boilerService.getCurrentBoiler(boiler1);
+		//boiler1 = boilerService.convertString("#STAT#161#15.62#10.20#1#1488813845#0.03#1488814881", boiler1);
 		return ResponseEntity.ok(boilerService.saveData(boiler1));
 
 	}
