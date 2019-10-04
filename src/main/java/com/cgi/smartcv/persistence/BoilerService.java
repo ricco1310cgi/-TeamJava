@@ -13,40 +13,40 @@ import com.cgi.smartcv.dto.BoilerController;
 @Transactional
 public class BoilerService {
 
-    private BoilerRepository boilerRepository;
-    private BoilerController boilerController;
+	private BoilerRepository boilerRepository;
+	private BoilerController boilerController;
 
-    @Autowired
-    public BoilerService(BoilerRepository boilerRepository) {
-        this.boilerRepository = boilerRepository;
-    }
+	@Autowired
+	public BoilerService(BoilerRepository boilerRepository) {
+		this.boilerRepository = boilerRepository;
+	}
 
-    public Iterable<Boiler> findAll() throws IOException, InterruptedException {
-        Iterable<Boiler> result = boilerRepository.findAll();
-        boilerController.outputBoiler();
-        return result;
-    }
+	public Iterable<Boiler> findAll() throws IOException, InterruptedException {
+		Iterable<Boiler> result = boilerRepository.findAll();
+		boilerController.outputBoiler();
+		return result;
+	}
 
-    public Boiler save(Boiler boiler) {
-        return boilerRepository.save(boiler);
-    }
+	public Boiler save(Boiler boiler) {
+		return boilerRepository.save(boiler);
+	}
 
 	public boolean startBoiler() throws IOException, InterruptedException {
 		boilerController = new BoilerController();
 		return boilerController.connectBoiler();
 	}
 
-    public float findTemperature() {
-        Iterable<Boiler> boilers = boilerRepository.findAll();
-        float tempInside = 0;
-        long timeRecorder = 0;
-        //find last (highest timeRecorder) boiler temperature in database
-        for (Boiler b : boilers) {
-            if (b.getTimeRecorder() > timeRecorder) {
-                timeRecorder = b.getTimeRecorder();
-                tempInside = b.getTempInside();
-            }
-        }
-        return tempInside;
-    }
+	public float findTemperature() {
+		Iterable<Boiler> boilers = boilerRepository.findAll();
+		float tempInside = 0;
+		long timeRecorder = 0;
+		// find last (highest timeRecorder) boiler temperature in database
+		for (Boiler b : boilers) {
+			if (b.getTimeRecorder() > timeRecorder) {
+				timeRecorder = b.getTimeRecorder();
+				tempInside = b.getTempInside();
+			}
+		}
+		return tempInside;
+	}
 }

@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
-@ApiModel(description = "All details about the Boiler.")
+@ApiModel(value = "Boiler", description = "All details about the Boiler.")
 public class Boiler {
 
 	@Id
@@ -118,15 +118,8 @@ public class Boiler {
 
 	@Override
 	public String toString() {
-		return "Boiler{" +
-				"id=" + id +
-				", boilerPressure=" + boilerPressure +
-				", tempInside=" + tempInside +
-				", tempOutside=" + tempOutside +
-				", isDoorClosed=" + isDoorClosed +
-				", timeMovementRecord=" + timeMovementRecord +
-				", gasUsage=" + gasUsage +
-				", timeRecorder=" + timeRecorder +
-				'}';
+		return "Boiler{" + "id=" + id + ", boilerPressure=" + boilerPressure + ", tempInside=" + tempInside
+				+ ", tempOutside=" + tempOutside + ", isDoorClosed=" + isDoorClosed + ", timeMovementRecord="
+				+ timeMovementRecord + ", gasUsage=" + gasUsage + ", timeRecorder=" + timeRecorder + '}';
 	}
 }
