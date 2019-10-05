@@ -79,7 +79,7 @@ public class BoilerConnector {
 
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
-		BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+//		BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
 
 		// Read the output from the command
 		String s = null;

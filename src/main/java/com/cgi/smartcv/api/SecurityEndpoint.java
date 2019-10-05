@@ -57,7 +57,7 @@ public class SecurityEndpoint {
 		this.jwtProvider = jwtProvider;
 	}
 
-	@ApiOperation(value = "Sign in as user, admin or pm")
+	@ApiOperation(value = "Sign in as user, admin or manager")
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
 
@@ -98,7 +98,7 @@ public class SecurityEndpoint {
 				roles.add(adminRole);
 
 				break;
-			case "pm":
+			case "manager":
 				Role pmRole = roleRepository.findByName(RoleName.ROLE_MANAGER)
 						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
 				roles.add(pmRole);
