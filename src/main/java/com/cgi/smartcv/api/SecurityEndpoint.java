@@ -99,7 +99,7 @@ public class SecurityEndpoint {
 
 				break;
 			case "pm":
-				Role pmRole = roleRepository.findByName(RoleName.ROLE_PM)
+				Role pmRole = roleRepository.findByName(RoleName.ROLE_MANAGER)
 						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
 				roles.add(pmRole);
 
