@@ -26,6 +26,19 @@ function startBoiler(api) {
     console.log('nono');
 }
 
+function getAverageTemp(api) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("averageTemp").innerHTML = this.responseText;
+        }
+    };
+    xhttp.open("GET", "http://localhost:8082/api/boiler/average");
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send();
+    console.log('test123');
+}
+
 function getTempInside(api) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {

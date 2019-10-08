@@ -1,23 +1,24 @@
 package com.cgi.smartcv.persistence;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-import com.cgi.smartcv.dto.BoilerConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cgi.smartcv.dto.Boiler;
 import com.cgi.smartcv.dto.BoilerController;
-
+import com.cgi.smartcv.calculator.AverageCalculator;
+import com.cgi.smartcv.dto.BoilerConverter;
 
 @Service
 @Transactional
 public class BoilerService {
 
-	private BoilerRepository boilerRepository;
-	private BoilerController boilerController;
-	private BoilerConverter boilerConverter;
+    private BoilerRepository boilerRepository;
+    private BoilerController boilerController;
+    private BoilerConverter boilerConverter;
 
     @Autowired
     public BoilerService(BoilerRepository boilerRepository) {
@@ -34,10 +35,10 @@ public class BoilerService {
         return boilerRepository.save(boiler);
     }
 
-	public boolean startBoiler() throws IOException, InterruptedException {
-		boilerController = new BoilerController();
-		return boilerController.connectBoiler();
-	}
+    public boolean startBoiler() throws IOException, InterruptedException {
+        boilerController = new BoilerController();
+        return boilerController.connectBoiler();
+    }
 
     public float findTemperature() {
         Iterable<Boiler> boilers = boilerRepository.findAll();
@@ -53,15 +54,21 @@ public class BoilerService {
         return tempInside;
     }
 
-	public Boiler saveData(Boiler boiler) {
-		Boiler save = boilerRepository.save(boiler);
-		return save;
-	}
+    public ArrayList<Float> calculateAverage() {
+        Iterable<Boiler> boilers = boilerRepository.findAll();
+        ArrayList<Float> averages = new AverageCalculator().calculateAverage(boilers);
+        return averages;
+    }
 
-	public Boiler convertString(String input, Boiler inputBoiler){
-		boilerConverter = new BoilerConverter();
-		return boilerConverter.convertStringToBoilerDTO(input, inputBoiler);
-	}
+    public Boiler saveData(Boiler boiler) {
+        Boiler save = boilerRepository.save(boiler);
+        return save;
+    }
+
+    public Boiler convertString(String input, Boiler inputBoiler) {
+        boilerConverter = new BoilerConverter();
+        return boilerConverter.convertStringToBoilerDTO(input, inputBoiler);
+    }
 
     public Boiler getCurrentBoiler(Boiler boiler1) throws IOException {
         boiler1 = boilerController.outputBoiler();
