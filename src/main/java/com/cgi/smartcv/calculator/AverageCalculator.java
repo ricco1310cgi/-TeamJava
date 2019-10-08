@@ -37,13 +37,8 @@ public class AverageCalculator {
     }
 
     private long getFirstDayMidnight(long firstDay) {
-        LocalDateTime dateTime =
-                LocalDateTime.ofInstant(Instant.ofEpochSecond(firstDay), ZoneId.systemDefault());
-        LocalDate date = dateTime.toLocalDate();
-        LocalTime midnight = LocalTime.of(0,0,0);
-        dateTime = LocalDateTime.of(date,midnight);
-        ZoneId zoneId = ZoneId.systemDefault();
-        return dateTime.atZone(zoneId).toEpochSecond();
+        LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(firstDay), ZoneId.systemDefault());
+        return dateTime.toLocalDate().atStartOfDay(ZoneId.systemDefault()).toEpochSecond();
     }
 
     private long getFirstDay(Iterable<Boiler> boilers) {
