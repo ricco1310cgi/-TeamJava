@@ -16,9 +16,9 @@ import com.cgi.smartcv.dto.BoilerConverter;
 @Transactional
 public class BoilerService {
 
-	private BoilerRepository boilerRepository;
-	private BoilerController boilerController;
-	private BoilerConverter boilerConverter;
+    private BoilerRepository boilerRepository;
+    private BoilerController boilerController;
+    private BoilerConverter boilerConverter;
 
     @Autowired
     public BoilerService(BoilerRepository boilerRepository) {
@@ -35,10 +35,10 @@ public class BoilerService {
         return boilerRepository.save(boiler);
     }
 
-	  public boolean startBoiler() throws IOException, InterruptedException {
-		  boilerController = new BoilerController();
-		  return boilerController.connectBoiler();
-	  }
+    public boolean startBoiler() throws IOException, InterruptedException {
+        boilerController = new BoilerController();
+        return boilerController.connectBoiler();
+    }
 
     public float findTemperature() {
         Iterable<Boiler> boilers = boilerRepository.findAll();
@@ -59,16 +59,16 @@ public class BoilerService {
         ArrayList<Float> averages = new AverageCalculator().calculateAverage(boilers);
         return averages;
     }
-  
-	  public Boiler saveData(Boiler boiler) {
-		  Boiler save = boilerRepository.save(boiler);
-		  return save;
-	  }
 
-	  public Boiler convertString(String input, Boiler inputBoiler){
-		  boilerConverter = new BoilerConverter();
-		  return boilerConverter.convertStringToBoilerDTO(input, inputBoiler);
-	  }
+    public Boiler saveData(Boiler boiler) {
+        Boiler save = boilerRepository.save(boiler);
+        return save;
+    }
+
+    public Boiler convertString(String input, Boiler inputBoiler) {
+        boilerConverter = new BoilerConverter();
+        return boilerConverter.convertStringToBoilerDTO(input, inputBoiler);
+    }
 
     public Boiler getCurrentBoiler(Boiler boiler1) throws IOException {
         boiler1 = boilerController.outputBoiler();
