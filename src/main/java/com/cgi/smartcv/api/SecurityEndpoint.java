@@ -96,7 +96,6 @@ public class SecurityEndpoint {
 				Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
 						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
 				roles.add(adminRole);
-
 				break;
 			case "manager":
 				Role pmRole = roleRepository.findByName(RoleName.ROLE_MANAGER)
