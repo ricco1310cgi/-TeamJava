@@ -5,17 +5,83 @@
     <title>Smart CV</title>
     <meta charset="utf-8">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+        integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <script src="smartCv.js"></script>
 </head>
 
 <body>
-    <img src="images/SBP_newLogo.png" alt="Logo SBP">
+    <header>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="images/SBP_newLogo.png" alt="Logo SBP">
+                </div>
+                <div class="col-md-3 offset-md-6 justify-content-end">
+                    Boiler Status: <div id="boilerStatus">false</div>
+                    <button onclick="startBoiler()" id="startBoilerButton">Start Boiler</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="overzicht">
+        <div class="container-fluid">
+            <div class="row justify-content-md-center">
+                <div class="col-md-6">
+                    <h1 class="text-center">Temperatuur</h1>
+                    <h2 id="overzichtBinnenTemp" class="text-center"></h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 text-center">
+                    <p>Boiler druk</p>
+                    <p id="overzichtBoilerDruk"></p>
+                </div>
+                <div class="col-md-2 text-center">
+                    <p>Buiten temperatuur</p>
+                    <p id="overzichtBuitenTemp"></p>
+                </div>
+                <div class="col-md-2 text-center">
+                    <p>Laatst thuis</p>
+                    <p id="overzichtLaatstThuis"></p>
+                </div>
+                <div class="col-md-2 text-center">
+                    <p>Gas gebruik</p>
+                    <p id="overzichtGasGebruik"></p>
+                </div>
+                <div class="col-md-2 text-center">
+                    <p>Deur status</p>
+                    <p id="overzichtDeurStatus"></p>
+                </div>
+                <div class="col-md-2 text-center">
+                    <p>Boiler tijd</p>
+                    <p id="overzichtBoilerTijd"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="grafiek">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <canvas id="barChart">
+
+                    </canvas>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <br>
-    Boiler Status: <div id="boilerStatus">false</div>
-    <button onclick="startBoiler()" id="startBoilerButton">Start Boiler</button>
+
     <br>
     Temperature: <div id=demo></div>
     <button onclick="getData()">Get Temperature</button>
@@ -28,8 +94,17 @@
     <a href="loginpage.html">loginpage</a>
 </body>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js"
+    integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a"
+    crossorigin="anonymous"></script>
 
 </html>
