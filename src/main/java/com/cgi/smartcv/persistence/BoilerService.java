@@ -70,8 +70,8 @@ public class BoilerService {
         return boilerConverter.convertStringToBoilerDTO(input, inputBoiler);
     }
 
-    public Boiler getCurrentBoiler(Boiler boiler1) throws IOException {
-        boiler1 = boilerController.outputBoiler();
-        return boiler1;
+    public Boiler getCurrentBoiler(Boiler boiler) throws IOException {
+        boiler = boilerController.outputBoiler();
+        return boiler;
     }
 }
