@@ -32,36 +32,45 @@
 
     <section id="overzicht">
         <div class="container-fluid">
-            <div class="row justify-content-md-center">
-                <div class="col-md-6">
-                    <h1 class="text-center">Temperatuur</h1>
+            <div class="row">
+                <div class="col-md-4 offset-md-2">
+                    <h1 class="text-center">Binnen Temperatuur</h1>
                     <h2 id="overzichtBinnenTemp" class="text-center"></h2>
                 </div>
+                <div class="col-md-4">
+                    <h1 class="text-center">Buiten Temperatuur</h1>
+                    <h2 id="overzichtBuitenTemp" class="text-center"></h2>
+                </div>
             </div>
+            <hr>
             <div class="row">
                 <div class="col-md-2 text-center">
+                    <p>Binnen Temperatuur</p>
+                    <p id="adminBinnenTemp"></p>
+                </div>
+                <div class="col-md-2 text-center">
                     <p>Boiler druk</p>
-                    <p id="overzichtBoilerDruk"></p>
+                    <p id="adminBoilerDruk"></p>
                 </div>
                 <div class="col-md-2 text-center">
                     <p>Buiten temperatuur</p>
-                    <p id="overzichtBuitenTemp"></p>
+                    <p id="adminBuitenTemp"></p>
                 </div>
                 <div class="col-md-2 text-center">
-                    <p>Laatst thuis</p>
-                    <p id="overzichtLaatstThuis"></p>
+                    <p>Laatst actief</p>
+                    <p id="adminLaatstThuis"></p>
                 </div>
                 <div class="col-md-2 text-center">
-                    <p>Gas gebruik</p>
-                    <p id="overzichtGasGebruik"></p>
+                    <p>Gas verbruik</p>
+                    <p id="adminGasGebruik"></p>
                 </div>
                 <div class="col-md-2 text-center">
-                    <p>Deur status</p>
-                    <p id="overzichtDeurStatus"></p>
+                    <p>Deur</p>
+                    <p id="adminDeurStatus"></p>
                 </div>
                 <div class="col-md-2 text-center">
                     <p>Boiler tijd</p>
-                    <p id="overzichtBoilerTijd"></p>
+                    <p id="adminBoilerTijd"></p>
                 </div>
             </div>
         </div>
@@ -83,15 +92,17 @@
     <br>
 
     <br>
-    Temperature: <div id=demo></div>
-    <button onclick="getData()">Get Temperature</button>
+    Overview: <div id=demo></div>
+    <button onclick="getData()">Get overview</button>
     <br>
     Average temperature: <div id=averageTemp></div>
     <button onclick="getAverageTemp()">Get Average Temperature</button>
     <br>
+    <!--
     Temperature: <div id=tempInside></div>
     <button onclick="getTempInside()">Get Temperature</button>
-    <a href="loginpage.html">loginpage</a>
+    -->
+    
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

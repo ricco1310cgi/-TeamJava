@@ -20,16 +20,30 @@ function getData(api) {
 
             serverBoilerArray = JSON.parse(this.responseText);           
             serverBoiler = JSON.parse(this.responseText);
+
+            // Gebruiker
             document.getElementById("overzichtBinnenTemp").innerHTML = serverBoiler[serverBoilerArray.length - 1].tempInside;
-            document.getElementById("overzichtBoilerDruk").innerHTML = serverBoiler[serverBoilerArray.length - 1].boilerPressure;
             document.getElementById("overzichtBuitenTemp").innerHTML = serverBoiler[serverBoilerArray.length-1].tempOutside;
+
+            // Admin
+            document.getElementById("adminBinnenTemp").innerHTML = serverBoiler[serverBoilerArray.length - 1].tempInside;
+            document.getElementById("adminBoilerDruk").innerHTML = serverBoiler[serverBoilerArray.length - 1].boilerPressure;
+            document.getElementById("adminBuitenTemp").innerHTML = serverBoiler[serverBoilerArray.length-1].tempOutside;
             var date = new Date(serverBoiler[serverBoilerArray.length-1].timeMovementRecord * 1000);
-            document.getElementById("overzichtLaatstThuis").innerHTML = date.toLocaleString();
-            document.getElementById("overzichtGasGebruik").innerHTML = serverBoiler[serverBoilerArray.length-1].gasUsage;
-            document.getElementById("overzichtDeurStatus").innerHTML = serverBoiler[serverBoilerArray.length-1].doorClosed;
+            document.getElementById("adminLaatstThuis").innerHTML = date.toLocaleString();
+            document.getElementById("adminGasGebruik").innerHTML = serverBoiler[serverBoilerArray.length-1].gasUsage;
+            var deurStatus = serverBoiler[serverBoilerArray.length-1].doorClosed;
+            console.log(deurStatus);
+            if (deurStatus == "true") {
+                document.getElementById("adminDeurStatus").innerHTML = "Open"
+            } else {
+                document.getElementById("adminDeurStatus").innerHTML = "Dicht"
+            }
+            //document.getElementById("overzichtDeurStatus").innerHTML = serverBoiler[serverBoilerArray.length-1].doorClosed;
             date = new Date(serverBoiler[serverBoilerArray.length-1].timeRecorder * 1000);
-            document.getElementById("overzichtBoilerTijd").innerHTML = date.toLocaleString();
-            document.getElementById("demo").innerHTML = this.responseText;
+            document.getElementById("adminBoilerTijd").innerHTML = date.toLocaleString();
+            console.log(this.responseText);
+            //document.getElementById("demo").innerHTML = this.responseText;
             
         }
     };
@@ -65,22 +79,40 @@ function getAverageTemp(api) {
             var barChart = document.getElementById("barChart");
 
             barChart.width = 300;
-            barChart.height = 400;
+            barChart.height = 200;
   
             var ctx = barChart.getContext("2d");
 
             ctx.clearRect(0, 0, barChart.width, barChart.height);
 
+            ctx.save();
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, barChart.height - 20);
+            ctx.lineTo(barChart.width, barChart.height - 20);
+            ctx.strokeStyle = "red";
+            ctx.stroke();
+
+            ctx.restore();
+
+            ctx.font = "12px Arial";
+
             for (var i = 0; i < 2; i++) {
                 console.log(serverBoiler[i]);
-                console.log(serverBoiler[i] == typeof Number)
-                    ctx.save();
-                    ctx.fillRect(i * 30, barChart.height, 20, -serverBoiler[i]*10);
-                    ctx.restore();                
+                ctx.save();
+                ctx.fillRect(i * 50 + 10, barChart.height - 40, 40, -serverBoiler[i]*20);
+                ctx.restore();    
+                ctx.save();
+                ctx.fillText(serverBoiler[i], i * 50 + 20, barChart.height - 25);   
+                ctx.restore();   
+                ctx.save();
+                ctx.fillText("Dag: " + i , i * 50 + 10, barChart.height - 5);   
+                ctx.restore();        
             }
             
 
-            document.getElementById("averageTemp").innerHTML = this.responseText;
+            //document.getElementById("averageTemp").innerHTML = this.responseText;
         }
     };
     xhttp.open("GET", "http://localhost:8082/api/boiler/average");
