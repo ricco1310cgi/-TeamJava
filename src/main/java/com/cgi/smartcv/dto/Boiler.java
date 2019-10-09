@@ -1,22 +1,20 @@
 package com.cgi.smartcv.dto;
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
-@ApiModel(description = "All details about the Boiler.")
+@ApiModel(value = "Boiler", description = "All details about the Boiler.")
 public class Boiler {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@ApiModelProperty(notes = "The database generated employee ID")
+	@ApiModelProperty(notes = "The database generates boiler ID")
 	private long id;
 
 	@ApiModelProperty(notes = "Pressure of the Boiler")
@@ -120,15 +118,8 @@ public class Boiler {
 
 	@Override
 	public String toString() {
-		return "Boiler{" +
-				"id=" + id +
-				", boilerPressure=" + boilerPressure +
-				", tempInside=" + tempInside +
-				", tempOutside=" + tempOutside +
-				", isDoorClosed=" + isDoorClosed +
-				", timeMovementRecord=" + timeMovementRecord +
-				", gasUsage=" + gasUsage +
-				", timeRecorder=" + timeRecorder +
-				'}';
+		return "Boiler{" + "id=" + id + ", boilerPressure=" + boilerPressure + ", tempInside=" + tempInside
+				+ ", tempOutside=" + tempOutside + ", isDoorClosed=" + isDoorClosed + ", timeMovementRecord="
+				+ timeMovementRecord + ", gasUsage=" + gasUsage + ", timeRecorder=" + timeRecorder + '}';
 	}
 }

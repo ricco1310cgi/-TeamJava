@@ -51,7 +51,6 @@ function getData(api) {
     xhttp.setRequestHeader("Content-type", "application/json");
 
     xhttp.send();
-    console.log('jojo');
 }
 
 function startBoiler(api) {
@@ -65,7 +64,6 @@ function startBoiler(api) {
     xhttp.open("GET", "http://localhost:8082/api/boiler/start");
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send();
-    console.log('nono');
 }
 
 function getAverageTemp(api) {
