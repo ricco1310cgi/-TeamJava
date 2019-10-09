@@ -1,6 +1,7 @@
 package com.cgi.smartcv.api;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.validation.Valid;
 
@@ -49,6 +50,16 @@ public class BoilerEndpoint {
 	public ResponseEntity<Float> findTemperature() {
 		float tempInside = boilerService.findTemperature();
 		return ResponseEntity.ok(tempInside);
+	}
+
+	
+	@ApiOperation(value = "Show average from the database")
+	@GetMapping("/boiler/average")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved average"),
+			@ApiResponse(code = 404, message = "Average is not found") })
+	public ResponseEntity<ArrayList<Float>> getAverage() {
+		ArrayList<Float> averages = boilerService.calculateAverage();
+		return ResponseEntity.ok(averages);
 	}
 
 	@ApiOperation(value = "To start the Boiler")
