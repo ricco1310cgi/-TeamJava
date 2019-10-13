@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SmartCvApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(SmartCvApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SmartCvApplication.class, args);
+    }
 }
