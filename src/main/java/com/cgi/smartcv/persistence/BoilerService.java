@@ -1,14 +1,16 @@
 package com.cgi.smartcv.persistence;
 
-import com.cgi.smartcv.calculator.AverageCalculator;
-import com.cgi.smartcv.dto.Boiler;
-import com.cgi.smartcv.dto.BoilerController;
-import com.cgi.smartcv.dto.BoilerConverter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import com.cgi.smartcv.dto.Boiler;
+import com.cgi.smartcv.dto.BoilerController;
+import com.cgi.smartcv.calculator.AverageCalculator;
+import com.cgi.smartcv.dto.BoilerConverter;
 
 @Service
 @Transactional
@@ -18,22 +20,22 @@ public class BoilerService {
     private BoilerController boilerController;
     private BoilerConverter boilerConverter;
 
-    @Autowired
-    public BoilerService(BoilerRepository boilerRepository) {
-        this.boilerRepository = boilerRepository;
-    }
+	@Autowired
+	public BoilerService(BoilerRepository boilerRepository) {
+		this.boilerRepository = boilerRepository;
+	}
 
-    public Iterable<Boiler> findAll() {
-        Iterable<Boiler> result = boilerRepository.findAll();
-        boilerController.outputBoiler();
-        return result;
-    }
+	public Iterable<Boiler> findAll() throws IOException, InterruptedException {
+		Iterable<Boiler> result = boilerRepository.findAll();
+		boilerController.outputBoiler();
+		return result;
+	}
 
-    public Boiler save(Boiler boiler) {
-        return boilerRepository.save(boiler);
-    }
+	public Boiler save(Boiler boiler) {
+		return boilerRepository.save(boiler);
+	}
 
-    public boolean startBoiler() {
+    public boolean startBoiler() throws IOException, InterruptedException {
         boilerController = new BoilerController();
         return boilerController.connectBoiler();
     }
@@ -68,7 +70,7 @@ public class BoilerService {
         return boilerConverter.convertStringToBoilerDTO(input, inputBoiler);
     }
 
-    public Boiler getCurrentBoiler(Boiler boiler) {
+    public Boiler getCurrentBoiler(Boiler boiler) throws IOException {
         boiler = boilerController.outputBoiler();
         return boiler;
     }

@@ -10,5 +10,5 @@ import com.cgi.smartcv.security.dto.RoleName;
 
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Long> {
-    Optional<Role> findByName(RoleName roleName);
+	Optional<Role> findByName(RoleName roleName);
 }

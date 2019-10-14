@@ -8,4 +8,5 @@ import com.cgi.smartcv.dto.Boiler;
 @Component
 public interface BoilerRepository extends CrudRepository<Boiler, Long> {
 
+
 }
