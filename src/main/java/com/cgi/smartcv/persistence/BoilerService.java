@@ -74,4 +74,9 @@ public class BoilerService {
         boiler = boilerController.outputBoiler();
         return boiler;
     }
+    public Iterable<Boiler> findAllByOrderByIdDesc() {
+        Iterable<Boiler> result = boilerRepository.findAllByOrderByIdDesc();
+        return result;
+    }
+
 }

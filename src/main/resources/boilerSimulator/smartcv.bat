@@ -1,0 +1,1 @@
+java -jar CV-CGI-1.1.1-SNAPSHOT-jar-with-dependencies.jar
