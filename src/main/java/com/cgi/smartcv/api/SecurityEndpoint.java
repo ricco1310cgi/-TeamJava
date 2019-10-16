@@ -2,6 +2,7 @@ package com.cgi.smartcv.api;
 
 import com.cgi.smartcv.security.SecurityHandshake;
 import com.cgi.smartcv.security.SecurityRequest;
+import com.cgi.smartcv.security.dto.Users;
 import com.cgi.smartcv.security.service.SecurityService;
 
 import io.swagger.annotations.ApiOperation;
@@ -43,5 +44,10 @@ public class SecurityEndpoint {
 		return ResponseEntity.ok(handshake);
 	}
 
+	@ApiOperation(value = "Delete login entry from database: Logout")
+    @PostMapping("/signout")
+    public ResponseEntity<Boolean> logout(@RequestBody Users user) {
+	    return ResponseEntity.ok().build();
+    }
 
 }
