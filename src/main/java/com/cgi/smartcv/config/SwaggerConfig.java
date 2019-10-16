@@ -39,12 +39,12 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 				.select()//
 				.apis(RequestHandlerSelectors.basePackage("com.cgi.smartcv.api"))//
 				.paths(PathSelectors.any())//
-				.build()//
-				.apiInfo(apiEndPointsInfo())//
-				.useDefaultResponseMessages(false)//
-				.securitySchemes(new ArrayList<>(
-						Arrays.asList(new ApiKey("Bearer em9uZTpteXBhc3N3b3Jk", "Authorization", "Header"))))
-				.pathMapping("").globalOperationParameters(aParameters);//
+				.build();//
+//				.apiInfo(apiEndPointsInfo())//
+//				.useDefaultResponseMessages(false)//
+//				.securitySchemes(new ArrayList<>(
+//						Arrays.asList(new ApiKey("Bearer em9uZTpteXBhc3N3b3Jk", "Authorization", "Header"))))
+//				.pathMapping("").globalOperationParameters(aParameters);//
 	}
 
 	private ApiInfo apiEndPointsInfo() {
