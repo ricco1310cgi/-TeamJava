@@ -86,9 +86,8 @@ public class BoilerEndpoint {
 
     @ApiOperation(value = "Control the boiler")
     @PostMapping("/boiler/temperature/{temperatureId}")
-    public ResponseEntity<Boiler> setTemperature(@ApiParam(required = true, name = "id", value = "Temperature ID") @PathVariable("id") Long id) {
-//        Boiler boiler = boilerService.setTemperature(id);
-
+    public ResponseEntity<Boiler> setTemperature(@ApiParam(required = true, name = "temperatureId", value = "Temperature ID") @PathVariable("temperatureId") float temperatureId) {
+        boolean boiler = boilerService.setTemperature(temperatureId);
         return ResponseEntity.ok().build();
     }
 

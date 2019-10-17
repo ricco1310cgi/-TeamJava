@@ -11,8 +11,7 @@ public class BoilerConnector {
     private static BufferedReader in;
     private Process proc;
 
-    // Method that connects to the BoilerSimulator and responds true or false based
-    // on CONNECT-OK
+    // Method that connects to the BoilerSimulator and responds true or false based on CONNECT-OK
     boolean connectBoiler() throws IOException {
         // Temp String
         String returnString = "";
@@ -31,13 +30,11 @@ public class BoilerConnector {
         // Send CONNECT command to boiler and store response
         returnString = sendCommandToBoiler("$CV-CONNECT-$-" + secretKey);
 
-        // Return the boolean based on the CONNECT-OK message, allows for future
-        // checking for errors
+        // Return the boolean based on the CONNECT-OK message, allows for future checking for errors
         return returnString.contains("CONNECT-OK");
     }
 
-    // Method that establishes a connection with the BoilerSimulator over the
-    // Socket, attempts again on failure
+    // Method that establishes a connection with the BoilerSimulator over the Socket, attempts again on failure
     private void establishConnection() throws IOException {
         int attempt = 0;
         // Attempt the connection and if unsuccessful, try again
@@ -69,8 +66,7 @@ public class BoilerConnector {
         return returnString;
     }
 
-    // Method that reads the input from the BoilerSimulator JAR, waits for the
-    // secret key and passes this back on the ready signal
+    // Method that reads the input from the BoilerSimulator JAR, waits for the secret key and passes this back on the ready signal
     private String getSecretKey() throws IOException {
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 //		BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
@@ -126,5 +122,17 @@ public class BoilerConnector {
         } else {
             return false;
         }
+    }
+
+    public boolean adjustTemperatureBoiler(float givenTemperature) {
+        String returnString = "";
+        float temperatureId = 0;
+
+        try {
+            returnString = sendCommandToBoiler("$CV-ACT-$10$30");
+        } catch (IOException e) {
+            System.out.println("Adjusting temperature not possible");
+        }
+        return returnString.contains("CONNECT-OK");
     }
 }
