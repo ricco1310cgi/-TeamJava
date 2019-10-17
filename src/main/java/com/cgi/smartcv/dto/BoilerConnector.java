@@ -126,7 +126,7 @@ public class BoilerConnector {
         }
     }
 
-    public boolean adjustTemperatureBoiler(float givenTemperature, float currentTemperature) {
+    public boolean adjustTemperatureBoiler(double givenTemperature, float currentTemperature) {
         String returnString = "";
         System.out.println("Given temperature: " + givenTemperature);
         System.out.println("Current temperature: " + currentTemperature);
@@ -138,7 +138,7 @@ public class BoilerConnector {
         return returnString.contains("CONNECT-OK");
     }
 
-    private String increaseTemperature(float givenTemperature, String returnString) {
+    private String increaseTemperature(double givenTemperature, String returnString) {
         try {
             System.out.println("Temperature inside: " + givenTemperature + " = rise");
             returnString = sendCommandToBoiler("$CV-ACT-$10$30");
@@ -148,7 +148,7 @@ public class BoilerConnector {
         return returnString;
     }
 
-    private String decreaseTemperature(float givenTemperature, String returnString) {
+    private String decreaseTemperature(double givenTemperature, String returnString) {
         try {
             System.out.println("Temperature inside: " + givenTemperature + " = lower");
             returnString = sendCommandToBoiler("$CV-ACT-$0$0");

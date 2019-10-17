@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,7 +87,10 @@ public class BoilerEndpoint {
 
     @ApiOperation(value = "Control the boiler")
     @PostMapping("/boiler/temperature/{temperatureId}")
-    public ResponseEntity<Boiler> setTemperature(@ApiParam(required = true, name = "temperatureId", value = "Temperature ID") @PathVariable("temperatureId") float temperatureId) {
+    public ResponseEntity<Boiler> setTemperature(@ApiParam(required = true, name = "temperatureId", value = "Temperature ID") @PathVariable("temperatureId") double temperatureId) {
+        if (temperatureId > 23.5){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        }
         boolean boiler = boilerService.setTemperature(temperatureId);
         return ResponseEntity.ok().build();
     }

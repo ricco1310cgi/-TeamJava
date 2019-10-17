@@ -79,7 +79,7 @@ public class BoilerService {
         return result;
     }
 
-    public boolean setTemperature(float id) {
+    public boolean setTemperature(double id) {
 
         return boilerController.modifyTemperatureBoiler(id, findTemperature());
     }
