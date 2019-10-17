@@ -44,7 +44,7 @@ public class BoilerController {
 		return boiler;
 	}
 
-	public boolean modifyTemperatureBoiler(float id){
-		return boilerConnector.adjustTemperatureBoiler(id);
+	public boolean modifyTemperatureBoiler(float givenTemperature, float currentTemperature){
+		return boilerConnector.adjustTemperatureBoiler(givenTemperature, currentTemperature);
 	}
 }

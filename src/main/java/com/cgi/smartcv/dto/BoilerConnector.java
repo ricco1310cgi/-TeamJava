@@ -1,5 +1,7 @@
 package com.cgi.smartcv.dto;
 
+import com.cgi.smartcv.persistence.BoilerService;
+
 import java.io.*;
 import java.net.ConnectException;
 import java.net.Socket;
@@ -124,15 +126,35 @@ public class BoilerConnector {
         }
     }
 
-    public boolean adjustTemperatureBoiler(float givenTemperature) {
+    public boolean adjustTemperatureBoiler(float givenTemperature, float currentTemperature) {
         String returnString = "";
-        float temperatureId = 0;
+        System.out.println("Given temperature: " + givenTemperature);
+        System.out.println("Current temperature: " + currentTemperature);
+        if (currentTemperature <= givenTemperature) {
+            returnString = increaseTemperature(givenTemperature, returnString);
+        } else {
+            returnString = decreaseTemperature(givenTemperature, returnString);
+        }
+        return returnString.contains("CONNECT-OK");
+    }
 
+    private String increaseTemperature(float givenTemperature, String returnString) {
         try {
+            System.out.println("Temperature inside: " + givenTemperature + " = rise");
             returnString = sendCommandToBoiler("$CV-ACT-$10$30");
         } catch (IOException e) {
             System.out.println("Adjusting temperature not possible");
         }
-        return returnString.contains("CONNECT-OK");
+        return returnString;
+    }
+
+    private String decreaseTemperature(float givenTemperature, String returnString) {
+        try {
+            System.out.println("Temperature inside: " + givenTemperature + " = lower");
+            returnString = sendCommandToBoiler("$CV-ACT-$0$0");
+        } catch (IOException e) {
+            System.out.println("Adjusting temperature not possible");
+        }
+        return returnString;
     }
 }
