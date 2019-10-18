@@ -58,4 +58,13 @@ public class Tokens {
     public void setRole(String role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "Tokens{" +
+                "name='" + name + '\'' +
+                ", token='" + token + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
 }

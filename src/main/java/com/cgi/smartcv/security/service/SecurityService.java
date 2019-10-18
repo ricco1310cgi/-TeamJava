@@ -1,5 +1,6 @@
 package com.cgi.smartcv.security.service;
 
+import com.cgi.smartcv.security.LogoutRequest;
 import com.cgi.smartcv.security.SecurityHandshake;
 import com.cgi.smartcv.security.SecurityRequest;
 import com.cgi.smartcv.security.dto.Tokens;
@@ -7,6 +8,7 @@ import com.cgi.smartcv.security.dto.Users;
 import com.cgi.smartcv.security.persistance.SecurityTokensRepository;
 import com.cgi.smartcv.security.persistance.SecurityUsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -36,6 +38,7 @@ public class SecurityService {
 
         boolean isAlreadyLoggedIn = false;
 
+
         Iterable<Users> listOfUsers = usersRepository.findAll();
         Iterable<Tokens> listOfTokens = tokensRepository.findAll();
 
@@ -47,18 +50,15 @@ public class SecurityService {
             }
         }
 
-        System.out.println("Request binnen: " + request.getUsername() + " : " + request.getPassword());
         for (Users user : listOfUsers) {
-            System.out.println("Gebruiker: " + user.getUsername() + " : " + user.getPassword() + " : " + user.getRole());
-
             if (user.getUsername().equals(request.getUsername()) && user.getPassword().equals(request.getPassword())) {
                 isPresentInDataBase = true;
-                securityHandshake = new SecurityHandshake(user.getUsername(), generateRandomToken(48), user.getRole());
+                break;
             }
         }
+
         if (!isPresentInDataBase) {
             throw new HTTPException(401);
-//            return new SecurityHandshake("unknown", "0" , "unknown");
         } else {
             System.out.println(securityHandshake.toString());
             tokensRepository.save(new Tokens(securityHandshake));
@@ -73,5 +73,34 @@ public class SecurityService {
             stb.append((char)(random.nextInt(57) + 65));
         }
         return stb.toString();
+    }
+
+    public Tokens logout(LogoutRequest logoutRequest) {
+        Tokens foundTokenFromDatabase = tokensRepository.findUserByNameAndTokenNamedParams(logoutRequest.getUsername(), logoutRequest.getToken());
+        if (foundTokenFromDatabase == null) {
+            throw new HTTPException(404);
+        }
+        tokensRepository.deleteUserByNameAndTokenNamedParams(logoutRequest.getUsername(), logoutRequest.getToken());
+
+
+        return foundTokenFromDatabase;
+    }
+
+    public Users addNewUser(Users newUser) {
+        Users existingUser = usersRepository.findUserByUsernameAndRole(newUser.getUsername(), newUser.getRole());
+        if (existingUser != null) { // User already exists
+            throw new HTTPException(403);
+        }
+        usersRepository.save(newUser);
+        return newUser;
+    }
+
+    public Users deleteUser(Users userToDelete) {
+        Users existingUser = usersRepository.findUserByUsernameAndRole(userToDelete.getUsername(), userToDelete.getRole());
+        if (existingUser == null) {
+            throw new HTTPException(404);
+        }
+        usersRepository.deleteUserByNameAndTokenNamedParams(userToDelete.getUsername(), userToDelete.getRole());
+        return existingUser;
     }
 }

@@ -1,7 +1,9 @@
 package com.cgi.smartcv.api;
 
+import com.cgi.smartcv.security.LogoutRequest;
 import com.cgi.smartcv.security.SecurityHandshake;
 import com.cgi.smartcv.security.SecurityRequest;
+import com.cgi.smartcv.security.dto.Tokens;
 import com.cgi.smartcv.security.dto.Users;
 import com.cgi.smartcv.security.service.SecurityService;
 
@@ -29,7 +31,7 @@ public class SecurityEndpoint {
 
 	@ApiOperation(value = "Custom login using back-end value check and front-end handshake")
 	@PostMapping("/signin")
-	public ResponseEntity<SecurityHandshake> loginRico(@RequestBody SecurityRequest request) {
+	public ResponseEntity<SecurityHandshake> login(@RequestBody SecurityRequest request) {
 		System.out.println("Login attempt");
 		try {
 			handshake = securityService.login((request));
@@ -46,8 +48,42 @@ public class SecurityEndpoint {
 
 	@ApiOperation(value = "Delete login entry from database: Logout")
     @PostMapping("/signout")
-    public ResponseEntity<Boolean> logout(@RequestBody Users user) {
-	    return ResponseEntity.ok().build();
+    public ResponseEntity<Tokens> logout(@RequestBody LogoutRequest logoutRequest) {
+		Tokens result = null;
+		try {
+			result = securityService.logout(logoutRequest);
+		} catch (HTTPException e) {
+			if (e.getStatusCode() == 404) {
+				return ResponseEntity.status(404).build();
+			}
+		}
+	    return ResponseEntity.ok(result);
     }
 
+    @ApiOperation(value = "Add new users to the database")
+    @PostMapping("/adduser")
+	public ResponseEntity<Users> addUser(@RequestBody Users newUser) {
+		Users addedUser = null;
+		try {
+			addedUser = securityService.addNewUser(newUser);
+		} catch (HTTPException e) {
+			if (e.getStatusCode() == 403)
+			return ResponseEntity.status(403).build();
+		}
+		return ResponseEntity.ok(addedUser);
+	}
+
+	@ApiOperation(value = "Delete users from the database")
+	@PostMapping("/deleteuser")
+	public ResponseEntity<Users> deleteUser(@RequestBody Users userToDelete) {
+		Users deletedUser = null;
+		try {
+			deletedUser = securityService.deleteUser(userToDelete);
+		} catch (HTTPException e) {
+			if (e.getStatusCode() == 404) {
+				return ResponseEntity.status(404).build();
+			}
+		}
+		return ResponseEntity.ok(deletedUser);
+	}
 }
