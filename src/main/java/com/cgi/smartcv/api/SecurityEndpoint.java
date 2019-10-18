@@ -86,4 +86,16 @@ public class SecurityEndpoint {
 		}
 		return ResponseEntity.ok(deletedUser);
 	}
+
+	@ApiOperation(value = "Check if a user is logged in")
+    @PostMapping("/checkloginstate")
+    public ResponseEntity<Tokens> checkLoginState(@RequestBody Tokens tokenToCheck) {
+	    Tokens responseToken = null;
+	    try{
+	        responseToken = securityService.checkActiveUser(tokenToCheck);
+        } catch (HTTPException e) {
+	        return ResponseEntity.status(404).build();
+        }
+	    return ResponseEntity.ok(responseToken);
+    }
 }

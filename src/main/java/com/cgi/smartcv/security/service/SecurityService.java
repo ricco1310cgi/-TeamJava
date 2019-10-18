@@ -103,4 +103,12 @@ public class SecurityService {
         usersRepository.deleteUserByNameAndTokenNamedParams(userToDelete.getUsername(), userToDelete.getRole());
         return existingUser;
     }
+
+    public Tokens checkActiveUser(Tokens tokenToCheck) {
+        Tokens existingToken = tokensRepository.findUserByNameAndTokenNamedParams(tokenToCheck.getName(), tokenToCheck.getToken());
+        if (existingToken == null) {
+            throw new HTTPException(404);
+        }
+        return existingToken;
+    }
 }
