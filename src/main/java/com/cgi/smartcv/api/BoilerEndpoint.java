@@ -1,11 +1,18 @@
 package com.cgi.smartcv.api;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.validation.Valid;
 
+
 import io.swagger.annotations.*;
+=======
+
+import com.cgi.smartcv.calculator.CalcRequest;
+import com.cgi.smartcv.calculator.CalculationObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +24,7 @@ import com.cgi.smartcv.persistence.BoilerService;
 @RestController
 @RequestMapping("/api")
 public class BoilerEndpoint {
+
 
     private BoilerService boilerService;
 
@@ -106,5 +114,4 @@ public class BoilerEndpoint {
         }
         return ResponseEntity.badRequest().build();
     }
-
 }

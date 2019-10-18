@@ -3,6 +3,8 @@ package com.cgi.smartcv.persistence;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.cgi.smartcv.calculator.CalcRequest;
+import com.cgi.smartcv.calculator.CalculationObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,9 +55,9 @@ public class BoilerService {
         return tempInside;
     }
 
-    public ArrayList<Float> calculateAverage() {
+    public ArrayList<CalculationObject> getCalculation(CalcRequest calcRequest) {
         Iterable<Boiler> boilers = boilerRepository.findAll();
-        ArrayList<Float> averages = new AverageCalculator().calculateAverage(boilers);
+        ArrayList<CalculationObject> averages = calcRequest.getCalculation(boilers);
         return averages;
     }
 
