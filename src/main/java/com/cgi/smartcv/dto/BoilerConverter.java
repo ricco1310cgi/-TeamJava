@@ -5,8 +5,7 @@ import java.util.Arrays;
 public class BoilerConverter {
 
 	public Boiler convertStringToBoilerDTO(String inputString, Boiler boiler) {
-		// Example input
-		// #STAT#161#15.62#10.20#1#1488813845#0.03#1488814881
+		// Example input #STAT#161#15.62#10.20#1#1488813845#0.03#1488814881
 		String[] inputs = inputString.split("#");
 		System.out.println(Arrays.toString(inputs));
 
