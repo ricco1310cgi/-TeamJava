@@ -1,25 +1,16 @@
 package com.cgi.smartcv.api;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-import javax.validation.Valid;
-
-
+import com.cgi.smartcv.dto.Boiler;
+import com.cgi.smartcv.persistence.BoilerService;
 import io.swagger.annotations.*;
-=======
-
-import com.cgi.smartcv.calculator.CalcRequest;
-import com.cgi.smartcv.calculator.CalculationObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.cgi.smartcv.dto.Boiler;
-import com.cgi.smartcv.persistence.BoilerService;
+import javax.validation.Valid;
+import javax.ws.rs.Path;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api")
@@ -55,14 +46,14 @@ public class BoilerEndpoint {
     }
 
 
-    @ApiOperation(value = "Show average from the database")
-    @GetMapping("/boiler/average")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully retrieved average"),
-            @ApiResponse(code = 404, message = "Average is not found")})
-    public ResponseEntity<ArrayList<Float>> getAverage() {
-        ArrayList<Float> averages = boilerService.calculateAverage();
-        return ResponseEntity.ok(averages);
-    }
+//    @ApiOperation(value = "Show average from the database")
+//    @GetMapping("/boiler/average")
+//    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully retrieved average"),
+//            @ApiResponse(code = 404, message = "Average is not found")})
+//    public ResponseEntity<ArrayList<Float>> getAverage() {
+//        ArrayList<Float> averages = boilerService.calculateAverage();
+//        return ResponseEntity.ok(averages);
+//    }
 
     @ApiOperation(value = "To start the Boiler")
     @GetMapping("/boiler/start")
@@ -93,13 +84,26 @@ public class BoilerEndpoint {
 
     }
 
-    @ApiOperation(value = "Control the boiler")
+    @ApiOperation(value = "Set up the temperature and communicate with the boiler")
     @PostMapping("/boiler/temperature/{temperatureId}")
-    public ResponseEntity<Boiler> setTemperature(@ApiParam(required = true, name = "temperatureId", value = "Temperature ID") @PathVariable("temperatureId") double temperatureId) {
-        if (temperatureId > 23.5){
+    public ResponseEntity<Boiler> setTemperature(
+            @ApiParam(required = true, name = "temperatureId", value = "Temperature ID") @PathVariable("temperatureId") double temperatureId) {
+        if (temperatureId > 23.5) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }
         boolean boiler = boilerService.setTemperature(temperatureId);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "Set time to start the boiler")
+    @PostMapping("/boiler/temperature/{temperatureId}/{setTime}")
+    public ResponseEntity<Boiler> setTimeforTemperature(
+            @ApiParam(required = true, name = "temperatureId", value = "Temperature ID") @PathVariable("temperatureId") double temperatureId,
+            @ApiParam(required = true, name = "setTime", value = "Given Time") @PathVariable("setTime") long setTime) {
+        if (temperatureId > 23.5) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        }
+        boolean setTimeforTemperature = boilerService.setTimer(temperatureId, setTime);
         return ResponseEntity.ok().build();
     }
 

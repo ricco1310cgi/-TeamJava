@@ -1,18 +1,13 @@
 package com.cgi.smartcv.persistence;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import com.cgi.smartcv.calculator.CalcRequest;
-import com.cgi.smartcv.calculator.CalculationObject;
+import com.cgi.smartcv.dto.Boiler;
+import com.cgi.smartcv.dto.BoilerController;
+import com.cgi.smartcv.dto.BoilerConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cgi.smartcv.dto.Boiler;
-import com.cgi.smartcv.dto.BoilerController;
-import com.cgi.smartcv.calculator.AverageCalculator;
-import com.cgi.smartcv.dto.BoilerConverter;
+import java.io.IOException;
 
 @Service
 @Transactional
@@ -55,10 +50,16 @@ public class BoilerService {
         return tempInside;
     }
 
-    public ArrayList<CalculationObject> getCalculation(CalcRequest calcRequest) {
+    public long findLastEpochTime() {
         Iterable<Boiler> boilers = boilerRepository.findAll();
-        ArrayList<CalculationObject> averages = calcRequest.getCalculation(boilers);
-        return averages;
+        long timeRecorder = 0;
+        //find last timeRecorder of boiler in database
+        for (Boiler b : boilers) {
+            if (b.getTimeRecorder() > timeRecorder) {
+                timeRecorder = b.getTimeRecorder();
+            }
+        }
+        return timeRecorder;
     }
 
     public Boiler saveData(Boiler boiler) {
@@ -82,7 +83,10 @@ public class BoilerService {
     }
 
     public boolean setTemperature(double id) {
-
         return boilerController.modifyTemperatureBoiler(id, findTemperature());
+    }
+
+    public boolean setTimer(double temperatureId, long setTime) {
+        return boilerController.setTimerWithTemperatureAndTime(temperatureId, setTime, findLastEpochTime());
     }
 }
