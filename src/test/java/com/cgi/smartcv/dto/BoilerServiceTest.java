@@ -19,6 +19,6 @@ public class BoilerServiceTest {
 
     @Test
     public void convertFloatToInt() {
-        assertEquals(23.5, boilerService.convertIntToDouble(235), 23.5);
+        assertEquals(23.5, boilerService.convertIntToFloat(235), 23.5);
     }
 }

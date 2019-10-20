@@ -44,11 +44,11 @@ public class BoilerController {
         return boiler;
     }
 
-    public boolean modifyTemperatureBoiler(double givenTemperature, float currentTemperature) {
+    public boolean modifyTemperatureBoiler(float givenTemperature, float currentTemperature) {
         return boilerConnector.adjustTemperatureBoiler(givenTemperature, currentTemperature);
     }
 
-    public boolean setTimerWithTemperatureAndTime(double temperatureId, long setTime, long epochTimeForDatabase, float currentTemperature) {
-        return boilerConnector.setTimer(temperatureId, setTime, epochTimeForDatabase, currentTemperature);
+    public boolean setTimerWithTemperatureAndTime(float temperatureId, long setTime, long epochTimeForDatabase, float currentTemperature) {
+        return boilerConnector.setTimer(temperatureId, currentTemperature, setTime, epochTimeForDatabase);
     }
 }

@@ -66,12 +66,20 @@ public class BoilerService {
         return timeRecorder;
     }
 
-    public double convertIntToDouble(int intNumber) {
+    public float convertIntToFloat(int intNumber) {
         String parser = String.valueOf(intNumber);
         BigInteger bigInteger = new BigInteger(parser);
-        double doubleValue = bigInteger.doubleValue();
-        double convertedResult = doubleValue / 10;
+        float floatValue = bigInteger.floatValue();
+        float convertedResult = floatValue / 10;
         return convertedResult;
+    }
+
+    public long convertFloatToEpoch(float minutesOfIncreasingTemperature) {
+        long minutesInLong = (long) minutesOfIncreasingTemperature;
+        System.out.println(minutesInLong);
+        long epoch = minutesInLong * 60;
+        System.out.println(epoch);
+        return epoch;
     }
 
 
@@ -96,12 +104,12 @@ public class BoilerService {
     }
 
     public boolean setTemperature(int temperatureId) {
-        double floatNumber = convertIntToDouble(temperatureId);
+        float floatNumber = convertIntToFloat(temperatureId);
         return boilerController.modifyTemperatureBoiler(floatNumber, findTemperature());
     }
 
     public boolean setTimer(int temperatureId, long setTime) {
-        double floatNumber = convertIntToDouble(temperatureId);
+        float floatNumber = convertIntToFloat(temperatureId);
         return boilerController.setTimerWithTemperatureAndTime(floatNumber, setTime, findLastEpochTime(), findTemperature());
     }
 }

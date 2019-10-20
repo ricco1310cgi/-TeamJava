@@ -12,6 +12,7 @@ public class BoilerConnector {
     private static PrintWriter out;
     private static BufferedReader in;
     private Process proc;
+    private BoilerService boilerService;
 
     // Method that connects to the BoilerSimulator and responds true or false based on CONNECT-OK
     boolean connectBoiler() throws IOException {
@@ -126,7 +127,7 @@ public class BoilerConnector {
         }
     }
 
-    public boolean adjustTemperatureBoiler(double givenTemperature, float currentTemperature) {
+    public boolean adjustTemperatureBoiler(float givenTemperature, float currentTemperature) {
         String returnString = "";
         System.out.println("Given temperature: " + givenTemperature);
         System.out.println("Current temperature: " + currentTemperature);
@@ -138,7 +139,7 @@ public class BoilerConnector {
         return returnString.contains("CONNECT-OK");
     }
 
-    private String increaseTemperature(double givenTemperature, String returnString) {
+    private String increaseTemperature(float givenTemperature, String returnString) {
         try {
             System.out.println("Temperature inside: " + givenTemperature + " = rise");
             returnString = sendCommandToBoiler("$CV-ACT-$10$30");
@@ -148,7 +149,7 @@ public class BoilerConnector {
         return returnString;
     }
 
-    private String decreaseTemperature(double givenTemperature, String returnString) {
+    private String decreaseTemperature(float givenTemperature, String returnString) {
         try {
             System.out.println("Temperature inside: " + givenTemperature + " = lower");
             returnString = sendCommandToBoiler("$CV-ACT-$0$0");
@@ -158,12 +159,32 @@ public class BoilerConnector {
         return returnString;
     }
 
-    public boolean setTimer(double temperatureId, float currentTemperature, long setTime, long epochTimeForDatabase) {
+    public boolean setTimer(float givenTemperature, float currentTemperature, long setTime, long epochTimeForDatabase) {
+        float differenceInTemperature = differenceInTemperature(givenTemperature, currentTemperature);
+        System.out.println("Set timer; difference in temperature : " + differenceInTemperature);
+        float minutesOfIncreasePerDegree = 9.0f;
+        float minutesOfIncreasingTemperature = differenceInTemperature * minutesOfIncreasePerDegree;
+        System.out.println(minutesOfIncreasingTemperature);
+        long epochOfIncreasingTemperature = boilerService.convertFloatToEpoch(minutesOfIncreasingTemperature);
+        System.out.println(epochOfIncreasingTemperature);
+
         String returnString = "";
-        if (setTime >= epochTimeForDatabase){
-            adjustTemperatureBoiler(temperatureId, currentTemperature);
+        if (setTime >= epochTimeForDatabase) {
+            adjustTemperatureBoiler(givenTemperature, currentTemperature);
             return true;
         }
         return false;
+    }
+
+    public float differenceInTemperature(float givenTemperature, float currentTemperature) {
+        float differenceInTemperature = givenTemperature - currentTemperature;
+        if (differenceInTemperature < 0.0) {
+            System.out.println("Before converting : " + differenceInTemperature);
+            float negativeToPositive = Math.abs(differenceInTemperature);
+            System.out.println("Negative to positive number : " + negativeToPositive);
+            return negativeToPositive;
+        }
+        System.out.println("Difference in Temperature : " + differenceInTemperature);
+        return differenceInTemperature;
     }
 }
