@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    alert("Hallo!");
+    //alert("Hallo!");
 
     if (checkIfLocalstorageExists()) {
         console.log("Er is data")        
@@ -28,12 +28,17 @@ $(document).ready(function () {
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            checkAnswer = JSON.parse(this.responseText);
-            alert(this.responseText + " : " + checkAnswer.name + " : " + checkAnswer.token + " + " + checkAnswer.role);
-        }
-        if (this.readyState == 4 && this.status == 404) {
-            alert("Gebruiker niet ingelogd");
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                checkAnswer = JSON.parse(this.responseText);
+                alert(this.responseText + " : " + checkAnswer.name + " : " + checkAnswer.token + " + " + checkAnswer.role);
+            }
+            else if (this.status == 404) {
+                alert("Gebruiker niet ingelogd");
+            }
+            else {
+                //alert("Externe foutmelding");
+            }
         }
     }
     xhttp.open("POST", "http://localhost:8082/api/auth/checkloginstate");
@@ -48,4 +53,11 @@ function checkIfLocalstorageExists() {
     return localStorage.getItem("name") != null && localStorage.getItem("name") != ""
         && localStorage.getItem("token") != null && localStorage.getItem("token") != ""
         && localStorage.getItem("role") != null && localStorage.getItem("role") != ""
+}
+
+function administratieRoleMaySee(role) {
+    if (role == "administratie" || role == "manager") {
+    } else {
+        open("loginpage.html");
+    }
 }
