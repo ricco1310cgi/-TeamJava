@@ -48,7 +48,7 @@ public class BoilerController {
         return boilerConnector.adjustTemperatureBoiler(givenTemperature, currentTemperature);
     }
 
-    public boolean setTimerWithTemperatureAndTime(double temperatureId, long setTime, long epochTimeForDatabase) {
-        return boilerConnector.setTimer(temperatureId, setTime, epochTimeForDatabase);
+    public boolean setTimerWithTemperatureAndTime(double temperatureId, long setTime, long epochTimeForDatabase, float currentTemperature) {
+        return boilerConnector.setTimer(temperatureId, setTime, epochTimeForDatabase, currentTemperature);
     }
 }

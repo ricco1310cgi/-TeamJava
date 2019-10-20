@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 @Service
 @Transactional
@@ -20,6 +21,9 @@ public class BoilerService {
     @Autowired
     public BoilerService(BoilerRepository boilerRepository) {
         this.boilerRepository = boilerRepository;
+    }
+
+    public BoilerService() {
     }
 
     public Iterable<Boiler> findAll() throws IOException, InterruptedException {
@@ -62,6 +66,15 @@ public class BoilerService {
         return timeRecorder;
     }
 
+    public double convertIntToDouble(int intNumber) {
+        String parser = String.valueOf(intNumber);
+        BigInteger bigInteger = new BigInteger(parser);
+        double doubleValue = bigInteger.doubleValue();
+        double convertedResult = doubleValue / 10;
+        return convertedResult;
+    }
+
+
     public Boiler saveData(Boiler boiler) {
         Boiler save = boilerRepository.save(boiler);
         return save;
@@ -82,11 +95,13 @@ public class BoilerService {
         return result;
     }
 
-    public boolean setTemperature(double id) {
-        return boilerController.modifyTemperatureBoiler(id, findTemperature());
+    public boolean setTemperature(int temperatureId) {
+        double floatNumber = convertIntToDouble(temperatureId);
+        return boilerController.modifyTemperatureBoiler(floatNumber, findTemperature());
     }
 
-    public boolean setTimer(double temperatureId, long setTime) {
-        return boilerController.setTimerWithTemperatureAndTime(temperatureId, setTime, findLastEpochTime());
+    public boolean setTimer(int temperatureId, long setTime) {
+        double floatNumber = convertIntToDouble(temperatureId);
+        return boilerController.setTimerWithTemperatureAndTime(floatNumber, setTime, findLastEpochTime(), findTemperature());
     }
 }

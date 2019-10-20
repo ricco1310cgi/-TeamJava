@@ -158,12 +158,12 @@ public class BoilerConnector {
         return returnString;
     }
 
-    public boolean setTimer(double temperatureId, long setTime, long epochTimeForDatabase) {
+    public boolean setTimer(double temperatureId, float currentTemperature, long setTime, long epochTimeForDatabase) {
         String returnString = "";
-        if (setTime < epochTimeForDatabase){
-
+        if (setTime >= epochTimeForDatabase){
+            adjustTemperatureBoiler(temperatureId, currentTemperature);
+            return true;
         }
-
-        return true;
+        return false;
     }
 }
