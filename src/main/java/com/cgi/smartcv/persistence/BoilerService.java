@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cgi.smartcv.dto.Boiler;
 import com.cgi.smartcv.dto.BoilerController;
-import com.cgi.smartcv.calculator.AverageCalculator;
 import com.cgi.smartcv.dto.BoilerConverter;
 
 @Service
@@ -56,10 +55,12 @@ public class BoilerService {
         return tempInside;
     }
 
-    public ArrayList<CalculationObject> getCalculation(CalcRequest calcRequest) {
+
+    public ArrayList<CalculationObject> getCalculation(long startDate, long endDate, String period, String value) {
         Iterable<Boiler> boilers = boilerRepository.findAll();
-        ArrayList<CalculationObject> averages = calcRequest.getCalculation(boilers);
-        return averages;
+        CalcRequest calcRequest = new CalcRequest(startDate, endDate, period, value);
+        ArrayList<CalculationObject> calculations = calcRequest.getCalculation(boilers);
+        return calculations;
     }
 
     public Boiler saveData(Boiler boiler) {
