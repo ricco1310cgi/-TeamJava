@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.validation.Valid;
 
+import com.cgi.smartcv.calculator.AverageCalculator;
 import com.cgi.smartcv.calculator.CalculationObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,12 +56,18 @@ public class BoilerEndpoint {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully retrieved calculation"),
             @ApiResponse(code = 404, message = "Calculation is not found")})
     public ResponseEntity<ArrayList<CalculationObject>> getCalculation(
-                @PathVariable long startDate,
-                @PathVariable long endDate,
-                @PathVariable String period,
-                @PathVariable String value) {
-            ArrayList<CalculationObject> calculations = boilerService.getCalculation(startDate, endDate, period, value);
-            return ResponseEntity.ok(calculations);
+            @PathVariable long startDate,
+            @PathVariable long endDate,
+            @PathVariable String period,
+            @PathVariable String value) {
+        if(startDate >= endDate){
+            return ResponseEntity.badRequest().build();
+        }
+        ArrayList<CalculationObject> calculations = boilerService.getCalculation(startDate, endDate, period, value);
+        if(new AverageCalculator().dataNotAvailable(calculations)){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(calculations);
     }
 
 

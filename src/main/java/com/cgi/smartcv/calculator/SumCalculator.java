@@ -16,17 +16,17 @@ public class SumCalculator {
             long dayInSeconds = new AverageCalculator().getDayInSeconds(dayCounter);
             float sum = getSumDay(boilers, dayCounter);
             CalculationObject sumObject = new CalculationObject(dayCounter, sum, period, value);
-            if(!isSumAvailable(boilers, dayCounter)){
+            if (!isSumAvailable(boilers, dayCounter)) {
                 sumObject.setValue("gas usage not available");
             }
             sums.add(sumObject);
             dayCounter += dayInSeconds;
         }
 
-        if(period.equalsIgnoreCase("month")){
+        if (period.equalsIgnoreCase("month")) {
             sums = getSumMonth(sums, period, value);
         }
-        if(period.equalsIgnoreCase("year")){
+        if (period.equalsIgnoreCase("year")) {
             sums = getSumYear(sums, period, value);
         }
         return sums;
@@ -57,21 +57,21 @@ public class SumCalculator {
         AverageCalculator averageCalculator = new AverageCalculator();
         float sum = 0;
         int count = 0;
-        for( int i = 0; i < sums.size(); i++){
+        for (int i = 0; i < sums.size(); i++) {
             int monthValueCurrentIteration = averageCalculator.getMonthValue(sums.get(i));
             int monthValueNextIteration = 0;
-            if(i != sums.size() - 1){
-                monthValueNextIteration = averageCalculator.getMonthValue(sums.get(i+1));
+            if (i != sums.size() - 1) {
+                monthValueNextIteration = averageCalculator.getMonthValue(sums.get(i + 1));
             }
-            if(sums.get(i).getValue().equals(value)) {
+            if (sums.get(i).getValue().equals(value)) {
                 sum += sums.get(i).getCalculation();
                 count++;
             }
-            if(monthValueCurrentIteration != monthValueNextIteration && count != 0){
+            if (monthValueCurrentIteration != monthValueNextIteration && count != 0) {
                 monthSums.add(new CalculationObject(averageCalculator.getFirstDayOfMonth(sums.get(i).getBeginDay()), sum, period, value));
                 sum = 0;
                 count = 0;
-            } else if(monthValueCurrentIteration != monthValueNextIteration){
+            } else if (monthValueCurrentIteration != monthValueNextIteration) {
                 monthSums.add(new CalculationObject(averageCalculator.getFirstDayOfMonth(sums.get(i).getBeginDay()), sum, period, "gas usage not available"));
             }
         }
@@ -84,21 +84,21 @@ public class SumCalculator {
         monthSums = getSumMonth(monthSums, period, value);
         float sum = 0;
         int count = 0;
-        for( int i = 0; i < monthSums.size(); i++){
+        for (int i = 0; i < monthSums.size(); i++) {
             int monthValueCurrentIteration = averageCalculator.getMonthValue(monthSums.get(i));
             int monthValueNextIteration = 0;
-            if(i != monthSums.size() - 1){
-                monthValueNextIteration = averageCalculator.getMonthValue(monthSums.get(i+1));
+            if (i != monthSums.size() - 1) {
+                monthValueNextIteration = averageCalculator.getMonthValue(monthSums.get(i + 1));
             }
-            if(monthSums.get(i).getValue().equals(value)) {
+            if (monthSums.get(i).getValue().equals(value)) {
                 sum += monthSums.get(i).getCalculation();
                 count++;
             }
-            if(monthValueCurrentIteration == 12 && monthValueNextIteration == 1 && count != 0){
+            if (monthValueCurrentIteration == 12 && monthValueNextIteration == 1 && count != 0) {
                 yearSums.add(new CalculationObject(new AverageCalculator().getFirstDayOfYear(monthSums.get(i).getBeginDay()), sum, period, value));
                 sum = 0;
                 count = 0;
-            } else if(monthValueCurrentIteration == 12 && monthValueNextIteration == 1){
+            } else if (monthValueCurrentIteration == 12 && monthValueNextIteration == 1) {
                 yearSums.add(new CalculationObject(new AverageCalculator().getFirstDayOfYear(monthSums.get(i).getBeginDay()), sum, period, "gas usage not available"));
             }
         }

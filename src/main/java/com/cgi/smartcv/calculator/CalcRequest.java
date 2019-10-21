@@ -18,7 +18,7 @@ public class CalcRequest {
     }
 
     public ArrayList<CalculationObject> getCalculation(Iterable<Boiler> boilers) {
-        if(value.equals("temperature"))
+        if (value.equals("temperature"))
             return new AverageCalculator().calculateAverage(boilers, startDate, endDate, period, value);
         else
             return new SumCalculator().calculateSum(boilers, startDate, endDate, period, value);

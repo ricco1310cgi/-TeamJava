@@ -17,20 +17,30 @@ public class AverageCalculator {
             long dayInSeconds = getDayInSeconds(dayCounter);
             float average = getAverageDay(boilers, dayCounter);
             CalculationObject averageObject = new CalculationObject(dayCounter, average, period, value);
-            if(average == -1000){
+            if (average == -1000) {
                 averageObject.setValue("temperature not available");
             }
             averages.add(averageObject);
             dayCounter += dayInSeconds;
         }
 
-        if(period.equalsIgnoreCase("month")){
+        if (period.equalsIgnoreCase("month")) {
             averages = getAverageMonth(averages, period, value);
         }
-        if(period.equalsIgnoreCase("year")){
+        if (period.equalsIgnoreCase("year")) {
             averages = getAverageYear(averages, period, value);
         }
         return averages;
+    }
+
+    public boolean dataNotAvailable(ArrayList<CalculationObject> averages) {
+        int count = 0;
+        for (int i = 0; i < averages.size(); i++) {
+            if (averages.get(i).getValue().equals("temperature not available")) {
+                count++;
+            }
+        }
+        return count == averages.size();
     }
 
     long getDayInSeconds(long dayCounter) {
@@ -64,7 +74,7 @@ public class AverageCalculator {
                 count++;
             }
         }
-        if(count == 0){
+        if (count == 0) {
             average = -1000;
         } else {
             average = average / count;
@@ -77,7 +87,7 @@ public class AverageCalculator {
         return dateTime.toLocalDate().atStartOfDay(ZoneId.systemDefault()).toEpochSecond();
     }
 
-    int getMonthValue(CalculationObject calculationObject){
+    int getMonthValue(CalculationObject calculationObject) {
         long beginDay = calculationObject.getBeginDay();
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(beginDay), ZoneId.systemDefault()).getMonthValue();
     }
@@ -86,22 +96,22 @@ public class AverageCalculator {
         int count = 0;
         float average = 0;
         ArrayList<CalculationObject> monthAverages = new ArrayList<>();
-        for( int i = 0; i < averages.size(); i++){
+        for (int i = 0; i < averages.size(); i++) {
             int monthValueCurrentIteration = getMonthValue(averages.get(i));
             int monthValueNextIteration = 0;
-            if(i != averages.size() -1) {
+            if (i != averages.size() - 1) {
                 monthValueNextIteration = getMonthValue(averages.get(i + 1));
             }
-            if(averages.get(i).getValue().equals(value)) {
+            if (averages.get(i).getValue().equals(value)) {
                 average += averages.get(i).getCalculation();
                 count++;
             }
-            if(monthValueCurrentIteration != monthValueNextIteration && count != 0){
-                average = average/count;
+            if (monthValueCurrentIteration != monthValueNextIteration && count != 0) {
+                average = average / count;
                 monthAverages.add(new CalculationObject(getFirstDayOfMonth(averages.get(i).getBeginDay()), average, period, value));
                 average = 0;
                 count = 0;
-            } else if(monthValueCurrentIteration != monthValueNextIteration){
+            } else if (monthValueCurrentIteration != monthValueNextIteration) {
                 monthAverages.add(new CalculationObject(getFirstDayOfMonth(averages.get(i).getBeginDay()), -1000, period, "temperature not available"));
             }
         }
@@ -113,22 +123,22 @@ public class AverageCalculator {
         float average = 0;
         ArrayList<CalculationObject> yearAverages = new ArrayList<>();
         monthAverages = getAverageMonth(monthAverages, period, value);
-        for( int i = 0; i < monthAverages.size(); i++){
+        for (int i = 0; i < monthAverages.size(); i++) {
             int monthValueCurrentIteration = getMonthValue(monthAverages.get(i));
             int monthValueNextIteration = 0;
-            if(i != monthAverages.size() - 1){
-                monthValueNextIteration = getMonthValue(monthAverages.get(i+1));
+            if (i != monthAverages.size() - 1) {
+                monthValueNextIteration = getMonthValue(monthAverages.get(i + 1));
             }
-            if(monthAverages.get(i).getValue().equals(value)) {
+            if (monthAverages.get(i).getValue().equals(value)) {
                 average += monthAverages.get(i).getCalculation();
                 count++;
             }
-            if(monthValueCurrentIteration == 12 && monthValueNextIteration == 1 && count != 0){
-                average = average/count;
+            if (monthValueCurrentIteration == 12 && monthValueNextIteration == 1 && count != 0) {
+                average = average / count;
                 yearAverages.add(new CalculationObject(getFirstDayOfYear(monthAverages.get(i).getBeginDay()), average, period, value));
                 average = 0;
                 count = 0;
-            }  else if(monthValueCurrentIteration == 12 && monthValueNextIteration == 1){
+            } else if (monthValueCurrentIteration == 12 && monthValueNextIteration == 1) {
                 yearAverages.add(new CalculationObject(getFirstDayOfYear(monthAverages.get(i).getBeginDay()), -1000, period, "temperature not available"));
             }
         }

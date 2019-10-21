@@ -21,20 +21,20 @@ public class BoilerService {
     private BoilerController boilerController;
     private BoilerConverter boilerConverter;
 
-	@Autowired
-	public BoilerService(BoilerRepository boilerRepository) {
-		this.boilerRepository = boilerRepository;
-	}
+    @Autowired
+    public BoilerService(BoilerRepository boilerRepository) {
+        this.boilerRepository = boilerRepository;
+    }
 
-	public Iterable<Boiler> findAll() throws IOException, InterruptedException {
-		Iterable<Boiler> result = boilerRepository.findAll();
-		boilerController.outputBoiler();
-		return result;
-	}
+    public Iterable<Boiler> findAll() throws IOException, InterruptedException {
+        Iterable<Boiler> result = boilerRepository.findAll();
+        boilerController.outputBoiler();
+        return result;
+    }
 
-	public Boiler save(Boiler boiler) {
-		return boilerRepository.save(boiler);
-	}
+    public Boiler save(Boiler boiler) {
+        return boilerRepository.save(boiler);
+    }
 
     public boolean startBoiler() throws IOException, InterruptedException {
         boilerController = new BoilerController();
