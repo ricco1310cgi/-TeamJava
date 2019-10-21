@@ -20,9 +20,6 @@ public class SecurityService {
     private SecurityTokensRepository tokensRepository;
     private SecurityUsersRepository usersRepository;
 
-    private SecurityRequest securityRequest;
-    private SecurityHandshake securityHandshake;
-
     @Autowired
     public SecurityService(SecurityUsersRepository usersRepository, SecurityTokensRepository tokensRepository) {
         this.usersRepository = usersRepository;
@@ -30,37 +27,24 @@ public class SecurityService {
     }
 
     public SecurityHandshake login(SecurityRequest request) {
+        System.out.println(request.toString());
+        Users foundUser = usersRepository.findUserByUsernameAndPassword(request.getUsername(), request.getPassword());
+        Tokens foundToken = tokensRepository.findUserByName(request.getUsername());
 
-        boolean isPresentInDataBase = false;
 
-        boolean isAlreadyLoggedIn = false;
-
-
-        Iterable<Users> listOfUsers = usersRepository.findAll();
-        Iterable<Tokens> listOfTokens = tokensRepository.findAll();
-
-        for (Tokens token: listOfTokens) {
-            if (token.getUsername().equals(request.getUsername())) {
-                System.out.println("Already Logged in");
-                throw new HTTPException(403);
-            }
-        }
-
-        for (Users user : listOfUsers) {
-            if (user.getUsername().equals(request.getUsername()) && user.getPassword().equals(request.getPassword())) {
-                isPresentInDataBase = true;
-                securityHandshake = new SecurityHandshake(user.getUsername(), generateRandomToken(48), user.getRole());
-                break;
-            }
-        }
-
-        if (!isPresentInDataBase) {
+        if (foundUser == null) {
             throw new HTTPException(401);
-        } else {
-            System.out.println(securityHandshake.toString());
-            tokensRepository.save(new Tokens(securityHandshake));
-            return securityHandshake;
+        } else if(foundToken != null) {
+            System.out.println(foundUser.toString());
+            System.out.println(foundToken.toString());
+            throw new HTTPException(403);
         }
+        System.out.println(foundUser.toString());
+
+        SecurityHandshake securityHandshake = new SecurityHandshake(foundUser.getUsername(), generateRandomToken(48), foundUser.getRole());
+        tokensRepository.save(new Tokens(securityHandshake));
+
+        return securityHandshake;
     }
 
     private String generateRandomToken(int length) {

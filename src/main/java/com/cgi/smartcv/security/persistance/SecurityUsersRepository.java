@@ -17,4 +17,10 @@ public interface SecurityUsersRepository extends CrudRepository<Users, Long> {
     void deleteUserByNameAndTokenNamedParams(
             @Param("username") String username,
             @Param("role") String role);
+
+    @Query("SELECT u FROM Users u WHERE u.username = :username AND u.password = :password")
+    Users findUserByUsernameAndPassword(
+            @Param("username") String username,
+            @Param("password") String password
+    );
 }

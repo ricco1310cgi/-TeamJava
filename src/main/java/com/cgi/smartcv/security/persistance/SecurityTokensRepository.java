@@ -18,4 +18,9 @@ public interface SecurityTokensRepository extends CrudRepository<Tokens, Long> {
             @Param("username") String username,
             @Param("token") String token);
 
+    @Query("SELECT t FROM Tokens t WHERE t.username = :username")
+    Tokens findUserByName(
+            @Param("username") String username
+    );
+
 }

@@ -5,25 +5,25 @@ $(document).ready(function () {
         console.log("Er is data")        
     } else {
         console.log("Nog geen data");
-        localStorage.setItem("name", "a");
+        localStorage.setItem("username", "a");
         localStorage.setItem("role", "a");
         localStorage.setItem("token", "a");
     }
 
     var checkRequest = {
-        name:localStorage.getItem("name"),
+        username:localStorage.getItem("username"),
         role:localStorage.getItem("role"),
         token:localStorage.getItem("token")
     }
 
     var checkAnswer = {
-        name:"",
+        username:"",
         token:"",
         role:""
     }
 
     console.log(checkRequest);
-    console.log(checkRequest.toString());
+    console.log(JSON.stringify(checkRequest));
 
 
     var xhttp = new XMLHttpRequest();
@@ -31,10 +31,16 @@ $(document).ready(function () {
         if (this.readyState == 4) {
             if (this.status == 200) {
                 checkAnswer = JSON.parse(this.responseText);
-                alert(this.responseText + " : " + checkAnswer.name + " : " + checkAnswer.token + " + " + checkAnswer.role);
+                if (document.title == "Overzicht") {
+                    if (checkAnswer.role == "user") {
+                        open("thermometer.html", "_self");
+                    }
+                }
+                //alert(this.responseText + " : " + checkAnswer.username + " : " + checkAnswer.token + " + " + checkAnswer.role);
             }
             else if (this.status == 404) {
                 alert("Gebruiker niet ingelogd");
+                open("loginpage.html", "_self")
             }
             else {
                 //alert("Externe foutmelding");
@@ -50,14 +56,42 @@ $(document).ready(function () {
 });
 
 function checkIfLocalstorageExists() {
-    return localStorage.getItem("name") != null && localStorage.getItem("name") != ""
+    return localStorage.getItem("username") != null && localStorage.getItem("username") != ""
         && localStorage.getItem("token") != null && localStorage.getItem("token") != ""
         && localStorage.getItem("role") != null && localStorage.getItem("role") != ""
 }
 
-function administratieRoleMaySee(role) {
-    if (role == "administratie" || role == "manager") {
-    } else {
-        open("loginpage.html");
+function logout() {
+    var logoutRequest = {
+        username:localStorage.getItem("username"),
+        role:localStorage.getItem("role"),
+        token:localStorage.getItem("token")
     }
+
+    localStorage.setItem("username", "a");
+    localStorage.setItem("role", "a");
+    localStorage.setItem("token", "a");
+    
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                checkAnswer = JSON.parse(this.responseText);
+                open("loginpage.html", "_self")
+                //alert(this.responseText + " : " + checkAnswer.username + " : " + checkAnswer.token + " + " + checkAnswer.role);
+            }
+            else if (this.status == 404) {
+                alert("Gebruiker niet ingelogd");
+                open("loginpage.html", "_self")
+            }
+            else {
+                //alert("Externe foutmelding");
+            }
+        }
+    }
+    xhttp.open("POST", "http://localhost:8082/api/auth/signout");
+    xhttp.setRequestHeader("Content-type", "application/json");
+
+    xhttp.send(JSON.stringify(logoutRequest));
 }

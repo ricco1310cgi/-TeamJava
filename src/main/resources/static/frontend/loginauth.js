@@ -1,7 +1,7 @@
 function check(form) {
-    if(form.userid.value == "Royschuiveling@gmail.com" && form.pswrd.value === "123" ||
-    form.userid.value == "Jusreiza@gmail.com" && form.pswrd.value === "456" ||
-    form.userid.value == "Faruk@gmail.com" && form.pswrd.value === "789" ) {
+    if (form.userid.value == "Royschuiveling@gmail.com" && form.pswrd.value === "123" ||
+        form.userid.value == "Jusreiza@gmail.com" && form.pswrd.value === "456" ||
+        form.userid.value == "Faruk@gmail.com" && form.pswrd.value === "789") {
         window.open();
         //window.location.replace("")
     } else {
@@ -11,7 +11,7 @@ function check(form) {
 
 function saveToLocalDB(form) {
     var loginRequest = {
-        name: form.userid.value,
+        username: form.userid.value,
         password: form.pswrd.value
     }
     var xhttp = new XMLHttpRequest();
@@ -19,21 +19,28 @@ function saveToLocalDB(form) {
         if (this.readyState == 4) {
             if (this.status == 200) {
                 checkAnswer = JSON.parse(this.responseText);
-                alert(this.responseText + " : " + checkAnswer.name + " : " + checkAnswer.token + " + " + checkAnswer.role);
+                alert(this.responseText + " : " + checkAnswer.username + " : " + checkAnswer.authToken + " + " + checkAnswer.role);
+                localStorage.setItem("username", checkAnswer.username);
+                localStorage.setItem("token", checkAnswer.authToken);
+                localStorage.setItem("role", checkAnswer.role);
+                if (checkAnswer.role == "user") {
+                    open("thermometer.html", "_self")
+                } else {
+                    open("overzicht.html", "_self")
+                }
             }
             else if (this.status == 401) {
                 alert("Gebruiker bestaat niet");
             }
             else if (this.status == 403) {
                 alert("Gebruiker is al ingelogd");
-            } else {
-                alert("Externe fout, probeer het later opnieuw")
             }
         }
     }
     xhttp.open("POST", "http://localhost:8082/api/auth/signin");
     xhttp.setRequestHeader("Content-type", "application/json");
-
+    console.log(loginRequest);
+    console.log(JSON.stringify(loginRequest));
     xhttp.send(JSON.stringify(loginRequest));
-    open("homeScreen.html", "_blank");
+
 }
