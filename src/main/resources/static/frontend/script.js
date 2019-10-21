@@ -63,12 +63,12 @@ function getData(api) {
             serverBoiler = JSON.parse(this.responseText);
 
             // Gebruiker
-            document.getElementById("currentTempInHouse").innerHTML = serverBoiler[serverBoilerArray.length - 1].tempInside;
-            document.getElementById("expectedTemp").innerHTML = serverBoiler[serverBoilerArray.length - 1].tempOutside;
+            document.getElementById("currentTempInHouse").innerHTML = serverBoiler[0].tempInside;
+            document.getElementById("expectedTemp").innerHTML = serverBoiler[0].tempOutside;
 
         }
     };
-    xhttp.open("GET", "http://localhost:8082/api/boiler");
+    xhttp.open("GET", "http://localhost:8082/api/boilerDesc");
     xhttp.setRequestHeader("Content-type", "application/json");
 
     xhttp.send();
@@ -89,12 +89,13 @@ function updateBoiler(api) {
 
 var autoUpdater;
 
-// $(document).ready(function () {
-//     autoUpdater = setInterval(() => {
-//         updateBoiler();
-//         getData();
-//     }, 2000);
-// });
+$(document).ready(function () {
+    autoUpdater = setInterval(() => {
+        updateBoiler();
+        getData();
+        updateTemp();
+    }, 2000);
+});
 
 function devTerminate() {
     clearInterval(autoUpdater);
@@ -121,7 +122,7 @@ function updateTempToSetMinus() {
     console.log("Button pressed: " + $("#tempToSet").text());
     var currentNumber = Number($("#tempToSet").text());
     currentNumber -= 0.5;
-    if (currentNumber < 5) {
+    if (currentNumber < 15) {
         currentNumber = 5;
     }
     console.log(currentNumber);
@@ -139,4 +140,18 @@ function updateTempToSetPlus() {
     console.log(currentNumber);
     $("#tempToSet").text(currentNumber);
     $("#tempToSetModal").text(currentNumber);
+}
+
+function updateTemp() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+
+        }
+    };
+    var time = moment().add(30, 'm');
+    xhttp.open("POST", "/boiler/temperature/200d/" + time, true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+
+    xhttp.send();
 }

@@ -189,4 +189,8 @@ public class BoilerConnector {
         System.out.println("Difference in Temperature : " + differenceInTemperature);
         return differenceInTemperature;
     }
+
+    public boolean getProc() {
+        return proc.isAlive();
+    }
 }
