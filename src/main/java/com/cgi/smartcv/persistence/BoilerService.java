@@ -108,7 +108,7 @@ public class BoilerService {
         return boilerController.modifyTemperatureBoiler(floatNumber, findTemperature());
     }
 
-    public boolean setTimer(int temperatureId, long setTime) {
+    public long setTimer(int temperatureId, long setTime) {
         float floatNumber = convertIntToFloat(temperatureId);
         return boilerController.setTimerWithTemperatureAndTime(floatNumber, setTime, findLastEpochTime(), findTemperature());
     }

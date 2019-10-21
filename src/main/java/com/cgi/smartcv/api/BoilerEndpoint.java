@@ -95,15 +95,18 @@ public class BoilerEndpoint {
     }
 
     @ApiOperation(value = "Set time to start the boiler")
-    @PostMapping("/boiler/temperature/{temperatureId}/{setTime}")
-    public ResponseEntity<Boiler> setTimeforTemperature(
+    @GetMapping("/boiler/temperature/{temperatureId}/{setTime}")
+    public ResponseEntity<Long> setTimeforTemperature(
             @ApiParam(required = true, name = "temperatureId", value = "Temperature ID") @PathVariable("temperatureId") int temperatureId,
             @ApiParam(required = true, name = "setTime", value = "Given Time") @PathVariable("setTime") long setTime) {
-        if (temperatureId > 23.5 || temperatureId < 150) {
+        if (temperatureId > 235 || temperatureId < 150) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }
-        boolean setTimeforTemperature = boilerService.setTimer(temperatureId, setTime);
-        return ResponseEntity.ok().build();
+        long setTimeforTemperature = boilerService.setTimer(temperatureId, setTime);
+        if(setTimeforTemperature == -1){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        }
+        return ResponseEntity.ok(setTimeforTemperature);
     }
 
 

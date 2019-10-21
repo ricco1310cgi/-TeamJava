@@ -1,9 +1,12 @@
 package com.cgi.smartcv.dto;
 
 import com.cgi.smartcv.persistence.BoilerService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.io.*;
 import java.net.ConnectException;
+import java.net.HttpRetryException;
 import java.net.Socket;
 
 public class BoilerConnector {
@@ -159,21 +162,20 @@ public class BoilerConnector {
         return returnString;
     }
 
-    public boolean setTimer(float givenTemperature, float currentTemperature, long setTime, long epochTimeForDatabase) {
+    public long setTimer(float givenTemperature, float currentTemperature, long setTime, long epochTimeForDatabase) {
         float differenceInTemperature = differenceInTemperature(givenTemperature, currentTemperature);
         System.out.println("Set timer; difference in temperature : " + differenceInTemperature);
         float minutesOfIncreasePerDegree = 9.0f;
         float minutesOfIncreasingTemperature = differenceInTemperature * minutesOfIncreasePerDegree;
         System.out.println(minutesOfIncreasingTemperature);
         long epochOfIncreasingTemperature = boilerService.convertFloatToEpoch(minutesOfIncreasingTemperature);
-        System.out.println(epochOfIncreasingTemperature);
-
+        System.out.println(epochOfIncreasingTemperature); //2700
         String returnString = "";
-        if (setTime >= epochTimeForDatabase) {
-            adjustTemperatureBoiler(givenTemperature, currentTemperature);
-            return true;
+        if (setTime >= epochOfIncreasingTemperature) {
+            long startTime = epochTimeForDatabase + (setTime - epochOfIncreasingTemperature);
+            return startTime;
         }
-        return false;
+        return -1;
     }
 
     public float differenceInTemperature(float givenTemperature, float currentTemperature) {
