@@ -7,15 +7,15 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface SecurityTokensRepository extends CrudRepository<Tokens, Long> {
-    @Query("SELECT t FROM Tokens t WHERE t.name = :name AND t.token = :token")
+    @Query("SELECT t FROM Tokens t WHERE t.username = :username AND t.token = :token")
     Tokens findUserByNameAndTokenNamedParams(
-            @Param("name") String name,
+            @Param("username") String username,
             @Param("token") String token);
 
     @Modifying
-    @Query("DELETE FROM Tokens t WHERE t.name = :name AND t.token = :token")
+    @Query("DELETE FROM Tokens t WHERE t.username = :username AND t.token = :token")
     void deleteUserByNameAndTokenNamedParams(
-            @Param("name") String name,
+            @Param("username") String username,
             @Param("token") String token);
 
 }
