@@ -1,5 +1,7 @@
 package com.cgi.smartcv.persistence;
 
+import com.cgi.smartcv.calculator.CalcRequest;
+import com.cgi.smartcv.calculator.CalculationObject;
 import com.cgi.smartcv.dto.Boiler;
 import com.cgi.smartcv.dto.BoilerController;
 import com.cgi.smartcv.dto.BoilerConverter;
@@ -9,9 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import com.cgi.smartcv.dto.Boiler;
-import com.cgi.smartcv.dto.BoilerController;
-import com.cgi.smartcv.dto.BoilerConverter;
+import java.util.ArrayList;
 
 @Service
 @Transactional

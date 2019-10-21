@@ -1,28 +1,21 @@
 package com.cgi.smartcv.api;
 
+import com.cgi.smartcv.calculator.AverageCalculator;
+import com.cgi.smartcv.calculator.CalculationObject;
 import com.cgi.smartcv.dto.Boiler;
 import com.cgi.smartcv.persistence.BoilerService;
-import io.swagger.annotations.*;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.validation.Valid;
-
-
-import io.swagger.annotations.*;
-
-import com.cgi.smartcv.calculator.CalcRequest;
-import com.cgi.smartcv.calculator.CalculationObject;
-
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.ws.rs.Path;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api")
