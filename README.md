@@ -4,7 +4,7 @@
 
 ## 1.1 Doel
 
-De focus ligt op de klant SBP Bungelowparken. SBP is al meer dan veertig jaar onbetwist marktleider in de mark voor korte vakantie in ruim opgezette parken midden in de natuur. Het doel van SBP is om bezoekers/villahuurders de mogelijkheid te geven om hun CV ketel van afstand te kunnen laten bedienen door middel van een web-applicatie. Aan ons de taak om deze web-applicatie voor SBP te bouwen.  
+De focus ligt op de klant SBP Bungelowparken. SBP is al meer dan veertig jaar onbetwist marktleider van korte vakanties in ruim opgezette parken midden in de natuur. Het doel van SBP is om bezoekers/villahuurders de mogelijkheid te geven om hun CV ketel van afstand te kunnen laten bedienen door middel van een web-applicatie. Aan ons is de taak om deze web-applicatie voor SBP te bouwen.  
 
 ## 1.2 Scope van het project
 
