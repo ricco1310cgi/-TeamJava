@@ -14,7 +14,7 @@ public class Tokens {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String name;
+    private String username;
     private String token;
     private String role;
 
@@ -22,13 +22,13 @@ public class Tokens {
     }
 
     public Tokens(SecurityHandshake securityHandshake) {
-        this.name = securityHandshake.getUsername();
+        this.username = securityHandshake.getUsername();
         this.token = securityHandshake.getAuthToken();
         this.role = securityHandshake.getRole();
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
     public String getToken() {
@@ -47,8 +47,8 @@ public class Tokens {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
     public void setToken(String token) {
@@ -62,7 +62,7 @@ public class Tokens {
     @Override
     public String toString() {
         return "Tokens{" +
-                "name='" + name + '\'' +
+                "username='" + username + '\'' +
                 ", token='" + token + '\'' +
                 ", role='" + role + '\'' +
                 '}';

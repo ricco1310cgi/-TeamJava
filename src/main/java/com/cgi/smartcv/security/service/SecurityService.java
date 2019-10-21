@@ -8,15 +8,11 @@ import com.cgi.smartcv.security.dto.Users;
 import com.cgi.smartcv.security.persistance.SecurityTokensRepository;
 import com.cgi.smartcv.security.persistance.SecurityUsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.xml.ws.http.HTTPException;
-import java.time.LocalDateTime;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @Transactional
@@ -34,6 +30,7 @@ public class SecurityService {
     }
 
     public SecurityHandshake login(SecurityRequest request) {
+
         boolean isPresentInDataBase = false;
 
         boolean isAlreadyLoggedIn = false;
@@ -43,16 +40,16 @@ public class SecurityService {
         Iterable<Tokens> listOfTokens = tokensRepository.findAll();
 
         for (Tokens token: listOfTokens) {
-            if (token.getName().equals(request.getUsername())) {
+            if (token.getUsername().equals(request.getUsername())) {
                 System.out.println("Already Logged in");
                 throw new HTTPException(403);
-//              return new SecurityHandshake("loggedIn", "0", "loggedIn");
             }
         }
 
         for (Users user : listOfUsers) {
             if (user.getUsername().equals(request.getUsername()) && user.getPassword().equals(request.getPassword())) {
                 isPresentInDataBase = true;
+                securityHandshake = new SecurityHandshake(user.getUsername(), generateRandomToken(48), user.getRole());
                 break;
             }
         }
@@ -105,7 +102,7 @@ public class SecurityService {
     }
 
     public Tokens checkActiveUser(Tokens tokenToCheck) {
-        Tokens existingToken = tokensRepository.findUserByNameAndTokenNamedParams(tokenToCheck.getName(), tokenToCheck.getToken());
+        Tokens existingToken = tokensRepository.findUserByNameAndTokenNamedParams(tokenToCheck.getUsername(), tokenToCheck.getToken());
         if (existingToken == null) {
             throw new HTTPException(404);
         }

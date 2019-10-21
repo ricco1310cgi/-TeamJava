@@ -2,12 +2,12 @@ package com.cgi.smartcv.security;
 
 public class SecurityHandshake {
     private String username;
-    private String authToken;
+    private String token;
     private String role;
 
     public SecurityHandshake(String username, String authToken, String role) {
         this.username = username;
-        this.authToken = authToken;
+        this.token = authToken;
         this.role = role;
     }
 
@@ -18,7 +18,7 @@ public class SecurityHandshake {
     public String toString() {
         return "SecurityHandshake{" +
                 "username='" + username + '\'' +
-                ", authToken='" + authToken + '\'' +
+                ", authToken='" + token + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }
@@ -32,11 +32,11 @@ public class SecurityHandshake {
     }
 
     public String getAuthToken() {
-        return authToken;
+        return token;
     }
 
     public void setAuthToken(String authToken) {
-        this.authToken = authToken;
+        this.token = authToken;
     }
 
     public String getRole() {
