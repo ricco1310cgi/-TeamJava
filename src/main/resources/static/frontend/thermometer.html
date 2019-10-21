@@ -71,15 +71,15 @@
               <div class="d-none d-md-block">
                 <div class="row align-items-center mb-3">
                   <div class="col-md-2 offset-md-2">
-                    <input name="minusButton" id="minusButton" class="btn btn-secondary btn-lg btn-block" type="button"
-                      value="-">
+                    <button name="minusButton" id="minusButton" class="btn btn-secondary btn-lg btn-block" type="button"
+                       onclick="updateTempToSetMinus()">-</button>
                   </div>
                   <div class="col-md-4 text-center">
                     <h1 class="d-inline"><span id="tempToSet">17</span>&deg;</h1>
                   </div>
                   <div class="col-md-2">
-                    <input name="minusButton" id="minusButton" class="btn btn-secondary btn-lg btn-block" type="button"
-                      value="+">
+                    <button name="minusButton" id="minusButton" class="btn btn-secondary btn-lg btn-block" type="button"
+                      onclick="updateTempToSetPlus()">+</button>
                   </div>
                 </div>
 
@@ -90,24 +90,11 @@
                   <div class="col-md-6">
                     <div class="dropdown open float-right d-none d-md-block">
                       <button class="btn btn-info dropdown-toggle btn-lg" type="button" id="laterButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="updateTimes()">
                         Later
                       </button>
-                      <div class="dropdown-menu" aria-labelledby="laterButton">
+                      <div class="dropdown-menu" id="temperatureDropDown" aria-labelledby="laterButton">
                         <button class="dropdown-item" href="#">13:00</button>
-                        <button class="dropdown-item" href="#">13:30</button>
-                        <button class="dropdown-item" href="#">14:00</button>
-                        <button class="dropdown-item" href="#">14:30</button>
-                      </div>
-                    </div>
-
-                    <div class="dropdown open d-block d-md-none mt-3">
-                      <button class="btn btn-info dropdown-toggle btn-lg" type="button" id="laterButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Later
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="laterButton">
-                        <button class="dropdown-item" onclick="alert(this.innerHTML)">13:00</button>
                         <button class="dropdown-item" href="#">13:30</button>
                         <button class="dropdown-item" href="#">14:00</button>
                         <button class="dropdown-item" href="#">14:30</button>
@@ -154,15 +141,15 @@
                         <div class="">
                           <div class="row align-items-center mb-3">
                             <div class="col-md-2 offset-md-2">
-                              <input name="minusButton" id="minusButton" class="btn btn-secondary btn-lg btn-block"
-                                type="button" value="-">
+                              <button name="minusButtonModal" id="minusButtonModal" class="btn btn-secondary btn-lg btn-block"
+                                type="button" value="-" onclick="updateTempToSetMinus()">-</button>
                             </div>
                             <div class="col-md-4 text-center">
-                              <h1 class="d-inline"><span id="tempToSet">17</span>&deg;</h1>
+                              <h1 class="d-inline"><span id="tempToSetModal">17</span>&deg;</h1>
                             </div>
                             <div class="col-md-2">
-                              <input name="minusButton" id="minusButton" class="btn btn-secondary btn-lg btn-block"
-                                type="button" value="+">
+                              <button name="minusButtonModal" id="plusButtonModal" class="btn btn-secondary btn-lg btn-block"
+                                type="button" value="+" onclick="updateTempToSetPlus()">+</button>
                             </div>
                           </div>
 
@@ -172,26 +159,14 @@
                                 value="Nu">
                             </div>
                             <div class="col-md-6">
-                              <div class="dropdown open float-right d-none d-md-block">
-                                <button class="btn btn-info dropdown-toggle btn-lg" type="button" id="laterButton"
-                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Later
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="laterButton">
-                                  <button class="dropdown-item" href="#">13:00</button>
-                                  <button class="dropdown-item" href="#">13:30</button>
-                                  <button class="dropdown-item" href="#">14:00</button>
-                                  <button class="dropdown-item" href="#">14:30</button>
-                                </div>
-                              </div>
-
                               <div class="dropdown open d-block d-md-none mt-3">
                                 <button class="btn btn-info dropdown-toggle btn-lg" type="button" id="laterButton"
-                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                  onclick="updateTimes()">
                                   Later
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="laterButton">
-                                  <button class="dropdown-item" onclick="alert(this.innerHTML)">13:00</button>
+                                <div class="dropdown-menu" id="temperatureDropDownModal" aria-labelledby="laterButton">
+                                  <button class="dropdown-item">13:00</button>
                                   <button class="dropdown-item" href="#">13:30</button>
                                   <button class="dropdown-item" href="#">14:00</button>
                                   <button class="dropdown-item" href="#">14:30</button>
@@ -203,7 +178,7 @@
                           <div class="row mt-3">
                             <div class="col-md-6 offset-md-3">
                               <input name="submitNewTime" id="submitNewTime" class="btn btn-primary btn-lg btn-block"
-                                type="button" value="Bevestigen">
+                                type="button" value="Bevestigen" data-dismiss="modal">
                             </div>
                           </div>
                         </div>
@@ -232,8 +207,11 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+  <!-- Libraries -->
+  <script src="moment-with-locales.js"></script>
   <!-- Own Scripts -->
   <script src="authChecker.js"></script>
+  <script src="script.js"></script>
 </body>
 
 </html>

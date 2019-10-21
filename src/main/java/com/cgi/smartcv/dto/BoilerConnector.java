@@ -12,11 +12,11 @@ public class BoilerConnector {
 	private static Socket clientSocket;
 	private static PrintWriter out;
 	private static BufferedReader in;
-	private Process proc;
+	private static Process proc;
 
 	// Method that connects to the BoilerSimulator and responds true or false based
 	// on CONNECT-OK
-	boolean connectBoiler() throws IOException {
+	boolean connectBoiler() throws IOException, InterruptedException {
 		// Temp String
 		String returnString = "";
 
@@ -41,7 +41,7 @@ public class BoilerConnector {
 
 	// Method that establishes a connection with the BoilerSimulator over the
 	// Socket, attempts again on failure
-	private void establishConnection() throws IOException {
+	private void establishConnection() throws IOException, InterruptedException {
 		int attempt = 0;
 		// Attempt the connection and if unsuccessful, try again
 		try {
@@ -75,7 +75,7 @@ public class BoilerConnector {
 
 	// Method that reads the input from the BoilerSimulator JAR, waits for the
 	// secret key and passes this back on the ready signal
-	private String getSecretKey() throws IOException {
+	private String getSecretKey() throws IOException, InterruptedException {
 
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
@@ -84,6 +84,8 @@ public class BoilerConnector {
 		// Read the output from the command
 		String s = null;
 		String secretKey = null;
+		Thread.sleep(1000);
+
 		while ((s = stdInput.readLine()) != null) {
 			System.out.println(s);
 			if (s.contains("Server secret")) {
@@ -136,5 +138,12 @@ public class BoilerConnector {
 		} else {
 			return false;
 		}
+	}
+
+	public boolean getProc() {
+		if (proc == null) {
+			return false;
+		}
+		return proc.isAlive();
 	}
 }

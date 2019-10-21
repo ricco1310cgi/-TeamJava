@@ -46,4 +46,8 @@ public class BoilerController {
 		System.out.println(boiler.getTempOutside());
 		return boiler;
 	}
+
+	public boolean getBoilerAliveState() {
+		return boilerConnector.getProc();
+	}
 }

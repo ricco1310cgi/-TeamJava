@@ -40,6 +40,11 @@ public class BoilerService {
         return boilerController.connectBoiler();
     }
 
+    public boolean isBoilerRunning() {
+	    boilerController = new BoilerController();
+	    return boilerController.getBoilerAliveState();
+    }
+
     public float findTemperature() {
         Iterable<Boiler> boilers = boilerRepository.findAll();
         float tempInside = 0;

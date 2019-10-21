@@ -19,11 +19,11 @@ function saveToLocalDB(form) {
         if (this.readyState == 4) {
             if (this.status == 200) {
                 checkAnswer = JSON.parse(this.responseText);
-                alert(this.responseText + " : " + checkAnswer.username + " : " + checkAnswer.authToken + " + " + checkAnswer.role);
                 localStorage.setItem("username", checkAnswer.username);
                 localStorage.setItem("token", checkAnswer.authToken);
                 localStorage.setItem("role", checkAnswer.role);
                 if (checkAnswer.role == "user") {
+                    startBoiler();
                     open("thermometer.html", "_self")
                 } else {
                     open("overzicht.html", "_self")

@@ -1,4 +1,4 @@
-var serverBoilerArray = new Array;
+var serverBoilerArray = [];
 
 var serverBoiler = {
     "id": -1,

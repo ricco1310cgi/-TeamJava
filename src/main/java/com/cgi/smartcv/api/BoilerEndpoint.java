@@ -68,6 +68,12 @@ public class BoilerEndpoint {
 		return ResponseEntity.ok(boilerService.startBoiler());
 	}
 
+	@ApiOperation(value = "Check if the Boiler is active")
+	@GetMapping("/boiler/alive")
+	public ResponseEntity<Boolean> boilerAliveStatus() {
+		return ResponseEntity.ok(boilerService.isBoilerRunning());
+	}
+
 	@ApiOperation(value = "Save a boiler object to the database")
 	@PostMapping("/boiler")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Successfully added a boiler object") })
