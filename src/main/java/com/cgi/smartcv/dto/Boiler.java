@@ -29,13 +29,13 @@ public class Boiler {
 	@ApiModelProperty(notes = "Confirmation if the door is closed")
 	private boolean isDoorClosed;
 
-	@ApiModelProperty(notes = "Time recodered, lastest in the room")
+	@ApiModelProperty(notes = "Time recodered in epoch, lastest in the room")
 	private long timeMovementRecord;
 
 	@ApiModelProperty(notes = "Gas usage Boiler")
 	private float gasUsage;
 
-	@ApiModelProperty(notes = "Time recorder")
+	@ApiModelProperty(notes = "actual time recorder in epoch")
 	private long timeRecorder;
 
 	public Boiler() {
