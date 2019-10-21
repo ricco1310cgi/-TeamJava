@@ -1,3 +1,5 @@
+
+
 function check(form) {
     if(form.userid.value == "Royschuiveling@gmail.com" && form.pswrd.value === "123" ||
     form.userid.value == "Jusreiza@gmail.com" && form.pswrd.value === "456" ||
@@ -7,4 +9,9 @@ function check(form) {
     } else {
         alert("The username and password you entered don't match");
     }
+}
+
+function saveToLocalDB(form) {
+    localStorage.setItem("formUserID", form.userid.value);
+    open("homeScreen.html", "_blank");
 }
