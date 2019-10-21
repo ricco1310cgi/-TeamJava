@@ -1,16 +1,17 @@
 package com.cgi.smartcv.persistence;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
+import com.cgi.smartcv.calculator.CalcRequest;
+import com.cgi.smartcv.calculator.CalculationObject;
+import com.cgi.smartcv.dto.Boiler;
+import com.cgi.smartcv.dto.BoilerController;
+import com.cgi.smartcv.dto.BoilerConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cgi.smartcv.dto.Boiler;
-import com.cgi.smartcv.dto.BoilerController;
-import com.cgi.smartcv.calculator.AverageCalculator;
-import com.cgi.smartcv.dto.BoilerConverter;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.ArrayList;
 
 @Service
 @Transactional
@@ -20,20 +21,22 @@ public class BoilerService {
     private BoilerController boilerController;
     private BoilerConverter boilerConverter;
 
-	@Autowired
-	public BoilerService(BoilerRepository boilerRepository) {
-		this.boilerRepository = boilerRepository;
-	}
+    @Autowired
+    public BoilerService(BoilerRepository boilerRepository) {
+        this.boilerRepository = boilerRepository;
+    }
 
-	public Iterable<Boiler> findAll() throws IOException, InterruptedException {
-		Iterable<Boiler> result = boilerRepository.findAll();
-		boilerController.outputBoiler();
-		return result;
-	}
+    public BoilerService() {
+    }
 
-	public Boiler save(Boiler boiler) {
-		return boilerRepository.save(boiler);
-	}
+    public Iterable<Boiler> findAll() throws IOException, InterruptedException {
+        Iterable<Boiler> result = boilerRepository.findAll();
+        return result;
+    }
+
+    public Boiler save(Boiler boiler) {
+        return boilerRepository.save(boiler);
+    }
 
     public boolean startBoiler() throws IOException, InterruptedException {
         boilerController = new BoilerController();
@@ -59,11 +62,41 @@ public class BoilerService {
         return tempInside;
     }
 
-    public ArrayList<Float> calculateAverage() {
+    public long findLastEpochTime() {
         Iterable<Boiler> boilers = boilerRepository.findAll();
-        ArrayList<Float> averages = new AverageCalculator().calculateAverage(boilers);
-        return averages;
+        long timeRecorder = 0;
+        //find last timeRecorder of boiler in database
+        for (Boiler b : boilers) {
+            if (b.getTimeRecorder() > timeRecorder) {
+                timeRecorder = b.getTimeRecorder();
+            }
+        }
+        return timeRecorder;
     }
+
+    public ArrayList<CalculationObject> getCalculation(long startDate, long endDate, String period, String value) {
+        Iterable<Boiler> boilers = boilerRepository.findAll();
+        CalcRequest calcRequest = new CalcRequest(startDate, endDate, period, value);
+        ArrayList<CalculationObject> calculations = calcRequest.getCalculation(boilers);
+        return calculations;
+    }
+
+    public float convertIntToFloat(int intNumber) {
+        String parser = String.valueOf(intNumber);
+        BigInteger bigInteger = new BigInteger(parser);
+        float floatValue = bigInteger.floatValue();
+        float convertedResult = floatValue / 10;
+        return convertedResult;
+    }
+
+    public long convertFloatToEpoch(float minutesOfIncreasingTemperature) {
+        long minutesInLong = (long) minutesOfIncreasingTemperature;
+        System.out.println(minutesInLong);
+        long epoch = minutesInLong * 60;
+        System.out.println(epoch);
+        return epoch;
+    }
+
 
     public Boiler saveData(Boiler boiler) {
         Boiler save = boilerRepository.save(boiler);
@@ -78,5 +111,20 @@ public class BoilerService {
     public Boiler getCurrentBoiler(Boiler boiler) throws IOException {
         boiler = boilerController.outputBoiler();
         return boiler;
+    }
+
+    public Iterable<Boiler> findAllByOrderByIdDesc() {
+        Iterable<Boiler> result = boilerRepository.findAllByOrderByIdDesc();
+        return result;
+    }
+
+    public boolean setTemperature(int temperatureId) {
+        float floatNumber = convertIntToFloat(temperatureId);
+        return boilerController.modifyTemperatureBoiler(floatNumber, findTemperature());
+    }
+
+    public long setTimer(int temperatureId, long setTime) {
+        float floatNumber = convertIntToFloat(temperatureId);
+        return boilerController.setTimerWithTemperatureAndTime(floatNumber, setTime, findLastEpochTime(), findTemperature());
     }
 }
