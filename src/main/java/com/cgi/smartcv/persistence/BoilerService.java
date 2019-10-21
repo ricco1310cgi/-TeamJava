@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import com.cgi.smartcv.dto.Boiler;
+import com.cgi.smartcv.dto.BoilerController;
+import com.cgi.smartcv.dto.BoilerConverter;
 
 @Service
 @Transactional
@@ -64,6 +67,13 @@ public class BoilerService {
             }
         }
         return timeRecorder;
+    }
+
+    public ArrayList<CalculationObject> getCalculation(long startDate, long endDate, String period, String value) {
+        Iterable<Boiler> boilers = boilerRepository.findAll();
+        CalcRequest calcRequest = new CalcRequest(startDate, endDate, period, value);
+        ArrayList<CalculationObject> calculations = calcRequest.getCalculation(boilers);
+        return calculations;
     }
 
     public float convertIntToFloat(int intNumber) {

@@ -3,6 +3,18 @@ package com.cgi.smartcv.api;
 import com.cgi.smartcv.dto.Boiler;
 import com.cgi.smartcv.persistence.BoilerService;
 import io.swagger.annotations.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.validation.Valid;
+
+
+import io.swagger.annotations.*;
+
+import com.cgi.smartcv.calculator.CalcRequest;
+import com.cgi.smartcv.calculator.CalculationObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,15 +56,24 @@ public class BoilerEndpoint {
         return ResponseEntity.ok(tempInside);
     }
 
-
-//    @ApiOperation(value = "Show average from the database")
-//    @GetMapping("/boiler/average")
-//    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully retrieved average"),
-//            @ApiResponse(code = 404, message = "Average is not found")})
-//    public ResponseEntity<ArrayList<Float>> getAverage() {
-//        ArrayList<Float> averages = boilerService.calculateAverage();
-//        return ResponseEntity.ok(averages);
-//    }
+    @ApiOperation(value = "Show calculation from the database")
+    @GetMapping("/boiler/calculation/{startDate}/{endDate}/{period}/{value}")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully retrieved calculation"),
+            @ApiResponse(code = 404, message = "Calculation is not found")})
+    public ResponseEntity<ArrayList<CalculationObject>> getCalculation(
+            @PathVariable long startDate,
+            @PathVariable long endDate,
+            @PathVariable String period,
+            @PathVariable String value) {
+        if(startDate >= endDate){
+            return ResponseEntity.badRequest().build();
+        }
+        ArrayList<CalculationObject> calculations = boilerService.getCalculation(startDate, endDate, period, value);
+        if(new AverageCalculator().dataNotAvailable(calculations)){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(calculations);
+    }
 
     @ApiOperation(value = "To start the Boiler")
     @GetMapping("/boiler/start")
