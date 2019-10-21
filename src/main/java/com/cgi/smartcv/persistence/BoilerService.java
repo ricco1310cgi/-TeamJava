@@ -28,7 +28,6 @@ public class BoilerService {
 
     public Iterable<Boiler> findAll() throws IOException, InterruptedException {
         Iterable<Boiler> result = boilerRepository.findAll();
-        boilerController.outputBoiler();
         return result;
     }
 
@@ -76,5 +75,15 @@ public class BoilerService {
     public Boiler getCurrentBoiler(Boiler boiler) throws IOException {
         boiler = boilerController.outputBoiler();
         return boiler;
+    }
+
+    public Iterable<Boiler> findAllByOrderByIdDesc() {
+        Iterable<Boiler> result = boilerRepository.findAllByOrderByIdDesc();
+        return result;
+    }
+
+    public boolean setTemperature(double id) {
+
+        return boilerController.modifyTemperatureBoiler(id, findTemperature());
     }
 }

@@ -5,18 +5,19 @@ import java.util.ArrayList;
 
 import javax.validation.Valid;
 
-import com.cgi.smartcv.calculator.AverageCalculator;
+
+import io.swagger.annotations.*;
+
+import com.cgi.smartcv.calculator.CalcRequest;
 import com.cgi.smartcv.calculator.CalculationObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.cgi.smartcv.dto.Boiler;
 import com.cgi.smartcv.persistence.BoilerService;
-
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/api")
@@ -50,7 +51,6 @@ public class BoilerEndpoint {
         return ResponseEntity.ok(tempInside);
     }
 
-
     @ApiOperation(value = "Show calculation from the database")
     @GetMapping("/boiler/calculation/{startDate}/{endDate}/{period}/{value}")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully retrieved calculation"),
@@ -69,7 +69,6 @@ public class BoilerEndpoint {
         }
         return ResponseEntity.ok(calculations);
     }
-
 
     @ApiOperation(value = "To start the Boiler")
     @GetMapping("/boiler/start")
@@ -100,4 +99,25 @@ public class BoilerEndpoint {
 
     }
 
+    @ApiOperation(value = "Control the boiler")
+    @PostMapping("/boiler/temperature/{temperatureId}")
+    public ResponseEntity<Boiler> setTemperature(@ApiParam(required = true, name = "temperatureId", value = "Temperature ID") @PathVariable("temperatureId") double temperatureId) {
+        if (temperatureId > 23.5){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        }
+        boolean boiler = boilerService.setTemperature(temperatureId);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @GetMapping("/boilerDesc")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully retrieved list of Boilers in descending"),
+            @ApiResponse(code = 404, message = "The boiler list is not found")})
+    public ResponseEntity<Iterable<Boiler>> findAllByIdDesc() {
+        Iterable<Boiler> boilers = boilerService.findAllByOrderByIdDesc();
+        if (boilers != null) {
+            return ResponseEntity.ok(boilers);
+        }
+        return ResponseEntity.badRequest().build();
+    }
 }

@@ -164,5 +164,4 @@ public class AverageCalculator {
         }
         return lastDay;
     }
-
 }
