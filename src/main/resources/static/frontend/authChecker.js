@@ -36,6 +36,12 @@ $(document).ready(function () {
                         open("thermometer.html", "_self");
                     }
                 }
+
+                if (document.title == "Administratie SBP") {
+                    if (checkAnswer.role == "user") {
+                        open("thermometer.html", "_self");
+                    }
+                }
                 //alert(this.responseText + " : " + checkAnswer.username + " : " + checkAnswer.token + " + " + checkAnswer.role);
             }
             else if (this.status == 404) {

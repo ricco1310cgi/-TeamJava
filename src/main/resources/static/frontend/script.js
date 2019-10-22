@@ -29,7 +29,7 @@ function startBoiler(userRole) {
                             open("overzicht.html", "_self");
                         } else if(userRole = "administratie") {
                             console.log("Administratie manager logged in");
-                            open("overzicht.html", "_self");
+                            open("administratie.html", "_self");
                         } else {
                             console.log("User manager logged in");
                             open("thermometer.html", "_self");
@@ -46,7 +46,7 @@ function startBoiler(userRole) {
                     open("overzicht.html", "_self");
                 } else if(userRole = "administratie") {
                     console.log("Administratie manager logged in");
-                    open("overzicht.html", "_self");
+                    open("administratie.html", "_self");
                 } else {
                     console.log("User manager logged in");
                     open("thermometer.html", "_self");

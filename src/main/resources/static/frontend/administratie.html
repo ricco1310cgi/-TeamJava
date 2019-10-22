@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Administratie SBP</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body class="bg-light">
+    <header>
+        <nav class="navbar navbar-light bg-light border border-top-0 border-left-0 border-right-0 border-white"
+            style="border-width: 2px !important;">
+            <div class="container p-0">
+                <a class="navbar-brand m-0 p-0" href="#"><img src="images/SBP_newLogo.png" alt="Logo SBP"
+                        width="100px"></a>
+                <div class="navbar-nav mr-auto">
+                </div>
+                <form class="form-inline my-2 my-md-0">
+                    <button class="btn btn-primary my-2 float-right" type="button" onclick="logout()">Uitloggen</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col bg-white mr-3">
+                <div class="container py-2">
+                    <form id="addUserForm">
+                        <h1 class="text-center mb-3">Gebruiker Toevoegen</h1>
+                        <div class="form-group row">
+                            <label for="inputEmail" class="col col-form-label">Gebruikersnaam</label>
+                            <div class="col">
+                                <input type="email" class="form-control" name="inputEmail" id="inputEmail"
+                                    placeholder="naam@email.nl">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPass" class="col col-form-label">Wachtwoord</label>
+                            <div class="col">
+                                <input type="text" class="form-control" name="inputPass" id="inputPass"
+                                    placeholder="*****">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Rol</label>
+                            <select multiple class="form-control" name="role" id="role">
+                                <option selected>User</option>
+                                <option>Administratie</option>
+                                <option>Manager</option>
+                            </select>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary" id="submitButton">Bevestig</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col bg-white">
+                <div class="container  py-2">
+                    <form id="deleteUserForm">
+                        <h1 class="text-center mb-3">Gebruiker Verwijderen</h1>
+                        <div class="form-group row">
+                            <label for="inputEmail" class="col col-form-label">Gebruikersnaam</label>
+                            <div class="col">
+                                <input type="email" class="form-control" name="inputEmailDelete" id="inputEmailDelete"
+                                    placeholder="naam@email.nl">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassDelete" class="col col-form-label">Wachtwoord</label>
+                            <div class="col">
+                                <input type="text" class="form-control" name="inputPassDelete" id="inputPassDelete"
+                                    placeholder="*****">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="roleDelete">Rol</label>
+                            <select multiple class="form-control" name="roleDelete" id="roleDelete">
+                                <option selected>User</option>
+                                <option>Administratie</option>
+                                <option>Manager</option>
+                            </select>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary" id="submitButtonDelete">Bevestig</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <!-- Own Scripts -->
+    <script src="administratie.js"></script>
+    <script src="authChecker.js"></script>
+</body>
+
+</html>
