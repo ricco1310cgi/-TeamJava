@@ -85,19 +85,19 @@
 
                 <div class="row my-3">
                   <div class="col-md-2 offset-md-2">
-                    <input name="setTimeNow" id="setTimeNow" class="btn btn-info btn-lg" type="button" value="Nu">
+                    <input name="setTimeNow" id="setTimeNow" class="btn btn-info btn-lg" type="button" value="Nu" onclick="setNowActive()">
                   </div>
                   <div class="col-md-6">
                     <div class="dropdown open float-right d-none d-md-block">
-                      <button class="btn btn-info dropdown-toggle btn-lg" type="button" id="laterButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="updateTimes()">
+                      <button class="btn btn-dark dropdown-toggle btn-lg" type="button" id="laterButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="updateTimes();setLaterActive()">
                         Later
                       </button>
                       <div class="dropdown-menu" id="temperatureDropDown" aria-labelledby="laterButton">
-                        <button class="dropdown-item" href="#">13:00</button>
-                        <button class="dropdown-item" href="#">13:30</button>
-                        <button class="dropdown-item" href="#">14:00</button>
-                        <button class="dropdown-item" href="#">14:30</button>
+                        <button class="dropdown-item" onclick="updateTimeStamp(1)">13:00</button>
+                        <button class="dropdown-item" onclick="updateTimeStamp(2)">13:30</button>
+                        <button class="dropdown-item" onclick="updateTimeStamp(3)">14:00</button>
+                        <button class="dropdown-item" onclick="updateTimeStamp(4)">14:30</button>
                       </div>
                     </div>
                   </div>
@@ -162,7 +162,7 @@
                               <div class="dropdown open d-block d-md-none mt-3">
                                 <button class="btn btn-info dropdown-toggle btn-lg" type="button" id="laterButton"
                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                  onclick="updateTimes()">
+                                  onclick="updateTimes();setLaterActive()">
                                   Later
                                 </button>
                                 <div class="dropdown-menu" id="temperatureDropDownModal" aria-labelledby="laterButton">
