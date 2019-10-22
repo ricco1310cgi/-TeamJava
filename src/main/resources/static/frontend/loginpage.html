@@ -7,28 +7,38 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <div class="nav ml-4 mt-4">
-        <a href="#"><img src="images/SBP_newLogo.png" alt="Logo SBP"></a>
-    </div>
+<header>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container p-0">
+            <a class="navbar-brand m-0 p-0" href="#"><img src="images/SBP_newLogo.png" alt="Logo SBP" width="100px"></a>
+            <div class="navbar-nav mr-auto">
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container p-0 mt-2">
+    <div class="row">
+        <div class="col-md-12 p-0">
     <form>
-        <div class="form-wrapper mt-4 col-md-12">
+        <div class="form-wrapper mt-4 col-md-12" style="padding-left: 0px">
             <div class="form-group col-md-6">
               <label for="exampleInputEmail1">Email</label>
               <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email" name="userid">
             </div>
             <div class="form-group col-md-6">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="pswrd">
+              <label for="exampleInputPassword1">Wachtwoord</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Wachtwoord"
+                     name="pswrd">
             </div>
-            <div class="form-group form-check">
-              <input type="checkbox" class="form-check-input ml-1" id="exampleCheck1">
-              <label class="form-check-label ml-2 col-md-6" for="exampleCheck1">Remember my email</label>
-            </div>
-            <div class="form-group col-md-12">
-                <button type="button" class="btn btn-primary col-md-1" onclick="saveToLocalDB(form)">Submit</button>
+            <div class="form-group col-md-12 mt-1">
+                <button type="button" class="btn btn-primary col-md-2 mt-2" onclick="saveToLocalDB(form)">Inloggen
+                </button>
             </div>
         </div>
     </form>
+    </div>
+    </div>
+</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

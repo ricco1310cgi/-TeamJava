@@ -192,6 +192,9 @@ public class BoilerConnector {
     }
 
     public boolean getProc() {
+        if (proc == null) {
+            return false;
+        }
         return proc.isAlive();
     }
 }
