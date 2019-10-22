@@ -176,6 +176,7 @@ function updateTempToSetPlus() {
 function updateTemp() {
     var currentTempLargeInt = Number($("#tempToSet").text())*10;
     var xhttp = new XMLHttpRequest();
+
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
 

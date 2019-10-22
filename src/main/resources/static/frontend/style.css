@@ -5,11 +5,30 @@
 .btn{
     background-color: #791e00;
     border-color: #791e00;
+    height: 40px;
+}
+
+.btn:active{
+       background-color: #791e00 !important;
+         border-color: #791e00 !important;
+         height: 40px !important;
+         outline: none;
+         box-shadow: none !important;
+}
+
+.btn:focus{
+background-color: #791e00 !important;
+         border-color: #791e00 !important;
+         height: 40px !important;
+         outline: none;
+         box-shadow: none !important;
 }
 
 .btn:hover{
-    background-color: #470501;
-    border-color: #470501; 
+    background-color: #470501 !important;
+    border-color: #470501 !important;
+         outline: none;
+         box-shadow: none !important;
 }
 
 .footer {
