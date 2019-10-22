@@ -7,7 +7,7 @@ $("#addUserForm").submit(function (e) {
     var addRequest = {
         username:$("#inputEmail").val(),
         password:$("#inputPass").val(),
-        role:$("#role").val()[0]
+        role:$("#role").val()[0].toLowerCase()
     }
     addUser(addRequest);
 });
