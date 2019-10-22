@@ -168,6 +168,7 @@ public class BoilerConnector {
         float minutesOfIncreasePerDegree = 9.0f;
         float minutesOfIncreasingTemperature = differenceInTemperature * minutesOfIncreasePerDegree;
         System.out.println(minutesOfIncreasingTemperature);
+        boilerService = new BoilerService();
         long epochOfIncreasingTemperature = boilerService.convertFloatToEpoch(minutesOfIncreasingTemperature);
         System.out.println(epochOfIncreasingTemperature); //2700
         String returnString = "";

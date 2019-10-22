@@ -13,19 +13,27 @@ var serverBoiler = {
     "doorClosed": false
 }
 
-function startBoiler(api) {
+function startBoiler(userRole) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            console.log(xhttp.responseText.toString() == "true");
             var boilerAliveStatus = xhttp.responseText.toString() == "true";
-            console.log(boilerAliveStatus);
 
             if (!boilerAliveStatus) {
                 var xhttp2 = new XMLHttpRequest();
                 xhttp2.onreadystatechange = function () {
                     if (xhttp2.readyState == 4 && xhttp2.status == 200) {
-                        console.log("Boiler Started!")
+                        console.log("Boiler Started!");
+                        if (userRole = "manager") {
+                            console.log("Gebruiker manager logged in");
+                            open("overzicht.html", "_self");
+                        } else if(userRole = "administratie") {
+                            console.log("Administratie manager logged in");
+                            open("overzicht.html", "_self");
+                        } else {
+                            console.log("User manager logged in");
+                            open("thermometer.html", "_self");
+                        }
                     }
                 };
                 xhttp2.open("GET", "http://localhost:8082/api/boiler/start");
@@ -44,11 +52,10 @@ function isBoilerAlive(api) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText.toString() == "true");
-            var boilerAliveStatus = this.responseText.toString() == "true";
-            console.log(boilerAliveStatus);
+            boilerAliveStatus = this.responseText.toString() == "true";
         }
     };
+    console.log(xhttp.readyState);
     xhttp.open("GET", "http://localhost:8082/api/boiler/alive");
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send();
@@ -90,10 +97,16 @@ function updateBoiler(api) {
 var autoUpdater;
 
 $(document).ready(function () {
+    setInterval(() => {
+        isBoilerAlive();
+        console.log(boilerAliveStatus);
+    }, 2000);
     autoUpdater = setInterval(() => {
-        updateBoiler();
-        getData();
-        updateTemp();
+        if (boilerAliveStatus) {
+            updateBoiler();
+            getData();
+            updateTemp();
+        }
     }, 2000);
 });
 
@@ -150,7 +163,7 @@ function updateTemp() {
         }
     };
     var time = moment().add(30, 'm');
-    xhttp.open("POST", "/boiler/temperature/200d/" + time, true);
+    xhttp.open("POST", "http://localhost:8082/api/boiler/temperature/200");
     xhttp.setRequestHeader("Content-type", "application/json");
 
     xhttp.send();

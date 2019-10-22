@@ -23,10 +23,11 @@ function saveToLocalDB(form) {
                 localStorage.setItem("token", checkAnswer.authToken);
                 localStorage.setItem("role", checkAnswer.role);
                 if (checkAnswer.role == "user") {
-                    startBoiler();
-                    open("thermometer.html", "_self")
+                    startBoiler("user");
+                } else if(checkAnswer.role == "administratie") {
+                    startBoiler("administratie");
                 } else {
-                    open("overzicht.html", "_self")
+                    startBoiler("manager");
                 }
             }
             else if (this.status == 401) {
