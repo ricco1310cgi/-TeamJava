@@ -22,16 +22,16 @@ function startBoiler(userRole) {
             if (!boilerAliveStatus) {
                 var xhttp2 = new XMLHttpRequest();
                 xhttp2.onreadystatechange = function () {
-                    if (xhttp2.readyState == 4 && xhttp2.status == 200) {
+                    if (xhttp2.readyState == 4) {
                         console.log("Boiler Started!");
-                        if (userRole = "manager") {
+                        if (userRole == "manager") {
                             console.log("Gebruiker manager logged in");
                             open("overzicht.html", "_self");
-                        } else if(userRole = "administratie") {
+                        } else if(userRole == "administratie") {
                             console.log("Administratie manager logged in");
                             open("administratie.html", "_self");
                         } else {
-                            console.log("User manager logged in");
+                            console.log("User logged in");
                             open("thermometer.html", "_self");
                         }
                     }
@@ -41,10 +41,10 @@ function startBoiler(userRole) {
                 xhttp2.send();
             } else {
                 console.log("Boiler already started, redirecting")
-                if (userRole = "manager") {
+                if (userRole == "manager") {
                     console.log("Gebruiker manager logged in");
                     open("overzicht.html", "_self");
-                } else if(userRole = "administratie") {
+                } else if(userRole == "administratie") {
                     console.log("Administratie manager logged in");
                     open("administratie.html", "_self");
                 } else {
