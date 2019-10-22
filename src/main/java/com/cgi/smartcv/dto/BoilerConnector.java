@@ -167,10 +167,10 @@ public class BoilerConnector {
         System.out.println("Set timer; difference in temperature : " + differenceInTemperature);
         float minutesOfIncreasePerDegree = 9.0f;
         float minutesOfIncreasingTemperature = differenceInTemperature * minutesOfIncreasePerDegree;
-        System.out.println(minutesOfIncreasingTemperature);
+        System.out.println("Duration of increase temperature in float" + minutesOfIncreasingTemperature);
         boilerService = new BoilerService();
         long epochOfIncreasingTemperature = boilerService.convertFloatToEpoch(minutesOfIncreasingTemperature);
-        System.out.println(epochOfIncreasingTemperature); //2700
+        System.out.println("Duration of increase temperature in epoch" + epochOfIncreasingTemperature); //2700
         String returnString = "";
         if (setTime >= epochOfIncreasingTemperature) {
             long startTime = epochTimeForDatabase + (setTime - epochOfIncreasingTemperature);

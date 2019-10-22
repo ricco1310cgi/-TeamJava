@@ -44,8 +44,8 @@ public class BoilerService {
     }
 
     public boolean isBoilerRunning() {
-	    boilerController = new BoilerController();
-	    return boilerController.getBoilerAliveState();
+        boilerController = new BoilerController();
+        return boilerController.getBoilerAliveState();
     }
 
     public float findTemperature() {
@@ -91,9 +91,9 @@ public class BoilerService {
 
     public long convertFloatToEpoch(float minutesOfIncreasingTemperature) {
         long minutesInLong = (long) minutesOfIncreasingTemperature;
-        System.out.println(minutesInLong);
+        System.out.println("minutes in long " + minutesInLong);
         long epoch = minutesInLong * 60;
-        System.out.println(epoch);
+        System.out.println("minutes in epoch " + epoch);
         return epoch;
     }
 

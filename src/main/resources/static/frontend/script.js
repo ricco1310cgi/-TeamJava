@@ -39,6 +39,18 @@ function startBoiler(userRole) {
                 xhttp2.open("GET", "http://localhost:8082/api/boiler/start");
                 xhttp2.setRequestHeader("Content-type", "application/json");
                 xhttp2.send();
+            } else {
+                console.log("Boiler already started, redirecting")
+                if (userRole = "manager") {
+                    console.log("Gebruiker manager logged in");
+                    open("overzicht.html", "_self");
+                } else if(userRole = "administratie") {
+                    console.log("Administratie manager logged in");
+                    open("overzicht.html", "_self");
+                } else {
+                    console.log("User manager logged in");
+                    open("thermometer.html", "_self");
+                }
             }
         }
     };
@@ -55,7 +67,6 @@ function isBoilerAlive(api) {
             boilerAliveStatus = this.responseText.toString() == "true";
         }
     };
-    console.log(xhttp.readyState);
     xhttp.open("GET", "http://localhost:8082/api/boiler/alive");
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send();
@@ -99,13 +110,20 @@ var autoUpdater;
 $(document).ready(function () {
     setInterval(() => {
         isBoilerAlive();
-        console.log(boilerAliveStatus);
     }, 2000);
     autoUpdater = setInterval(() => {
         if (boilerAliveStatus) {
-            updateBoiler();
-            getData();
-            updateTemp();
+            console.log(document.title);
+            if (document.title == "Thermometer huisje") {
+                updateBoiler();
+                getData();
+                if($("#setTimeNow").hasClass("btn-info")) {
+                    updateTemp();
+                } else {
+                    increaseTempByTime();
+                }
+                
+            }
         }
     }, 2000);
 });
@@ -136,7 +154,7 @@ function updateTempToSetMinus() {
     var currentNumber = Number($("#tempToSet").text());
     currentNumber -= 0.5;
     if (currentNumber < 15) {
-        currentNumber = 5;
+        currentNumber = 15;
     }
     console.log(currentNumber);
     $("#tempToSet").text(currentNumber);
@@ -156,15 +174,59 @@ function updateTempToSetPlus() {
 }
 
 function updateTemp() {
-    /*var xhttp = new XMLHttpRequest();
+    var currentTempLargeInt = Number($("#tempToSet").text())*10;
+    var xhttp = new XMLHttpRequest();
+
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
 
         }
     };
-    var time = moment().add(30, 'm');
-    xhttp.open("POST", "http://localhost:8082/api/boiler/temperature/200");
+    xhttp.open("POST", "http://localhost:8082/api/boiler/temperature/" + currentTempLargeInt);
     xhttp.setRequestHeader("Content-type", "application/json");
 
-    xhttp.send();*/
+    xhttp.send();
+}
+
+var timeToSet = timeToSet = moment().add(1 * 30, 'm').startOf('minute').valueOf();
+
+function updateTimeStamp(number) {
+    timeToSet = moment().add(number + 1 * 30, 'm').startOf('minute').valueOf();
+    console.log(timeToSet);
+}
+
+function increaseTempByTime(){
+    var currentTempLargeInt = Number($("#tempToSet").text())*10;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                
+            }
+            
+        }
+    };
+    xhttp.open("GET", "http://localhost:8082/api/boiler/temperature/" + currentTempLargeInt + "/" + timeToSet);
+    xhttp.setRequestHeader("Content-type", "application/json");
+
+    xhttp.send();
+}
+
+
+function setNowActive() { 
+    $("#laterButton").removeClass("btn-dark");
+    $("#setTimeNow").removeClass("btn-dark");
+    $("#laterButton").removeClass("btn-info");
+    $("#setTimeNow").removeClass("btn-info");
+    $("#laterButton").addClass("btn-dark");
+    $("#setTimeNow").addClass("btn-info");
+}
+
+function setLaterActive() { 
+    $("#laterButton").removeClass("btn-dark");
+    $("#laterButton").removeClass("btn-info");
+    $("#setTimeNow").removeClass("btn-dark");
+    $("#setTimeNow").removeClass("btn-info");
+    $("#laterButton").addClass("btn-info");
+    $("#setTimeNow").addClass("btn-dark");
 }
